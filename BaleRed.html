@@ -1,0 +1,303 @@
+<!-- Created by Mojtaba Ahadi -->
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale bot', {
+        category: 'config',
+        defaults: {
+            botname: { value: "", required: true },
+            user_ids: { value: "", required: false },
+        },
+        credentials: {
+            token: { type: "text" }
+        },
+        label: function () {
+            return this.botname;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale bot">
+    <div class="form-row">
+        <label for="node-config-input-botname"><i class="fa fa-Bale"></i> Bot-Name</label>
+        <input type="text" id="node-config-input-botname" placeholder="(Name of bot to connect to)">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-token"><i class="fa fa-key"></i> Token</label>
+        <input type="text" id="node-config-input-token" placeholder="(Enter the bot token from botfather here)">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-user_ids"><i class="fa fa-comment"></i> user_ids</label>
+        <input type="text" id="node-config-input-user_ids" placeholder="(Optional list of authorized user_ids e.g.: 1234567,2345678,3456789)">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="bale bot">
+    <p>A configuration node that holds the token of the bale bot.</p>
+    <p>
+        It communicates with the bale server. Do not create several configurations nodes with the same token!
+        The usernames and chat ids properties can be used to limit authorization to the bot. Enter values in comma separated format e.g. a,b,c
+        Chat ids are optional. Leave field blank if you do not want to use this feature.
+    </p>
+</script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale receiver', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: { value: "" },
+            bot: { value:"", type: "bale bot", required: true },
+            saveDataDir: { value: "" }
+        },
+        inputs: 0,
+        outputs: 2,
+        icon: "bale.png",
+        paletteLabel: "receiver",
+        label: function () {
+            return this.name || "Bale receiver";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale receiver">
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+    <!--<div class="form-row">-->
+        <!--<label for="node-input-saveDataDir"><i class="fa fa-hdd-o"></i> Download Directory</label>-->
+        <!--<input type="text" id="node-input-saveDataDir" placeholder="Download directory">-->
+    <!--</div>-->
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="bale receiver">
+    <p>A bale node that triggers the output when some message is received from the chat.
+    Message is sent to output 1 if it comes from an authorized user.
+    Message is sent to output 2 if it comes from an non-authorized user.</p>
+    <p><code>msg.payload</code> typically contains the parsed data as follows:</p>
+    <ul>
+    <li><code>content</code> the message contents</li>
+    <li><code>type</code> the type of message contents</li>
+    <li><code>user_id</code> the user_id number</li>
+    </ul>
+    <p>Other properties may be present depending on the type of message.</p>
+    <code>msg.originalMessage</code> contains the raw data object from the underlying library,
+    and contains many useful properties.</p>
+</script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale downloader', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: { value: "" },
+            bot: { value:"", type: "bale bot", required: true },
+            saveDataDir: { value: "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "bale.png",
+        paletteLabel: "downloader",
+        label: function () {
+            return this.name || "Bale downloader";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale downloader">
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+    <div class="form-row">
+        <label for="node-input-saveDataDir"><i class="fa fa-hdd-o"></i>Download Directory</label>
+        <input type="text" id="node-input-saveDataDir" placeholder="Download directory">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="bale downloader">
+    <p>A bale node that downloads files.
+    <p><code>msg.payload</code> typically contains the parsed data as follows:</p>
+    <ul>
+    <li><code>content</code> the message contents</li>
+    <li><code>user_id</code> the user_id number</li>
+    <li><code>accessHash</code> the user accessHash string</li>
+    <p><code>msg.payload.content</code> typically contains the parsed data as follows:</p>
+    <li><code>type</code> the type of message contents</li>
+
+    <li><code>file_id</code> the file_id of the file</li>
+    <li><code>file_hash</code> the file_hash of the file</li>
+    <li><code>file_name</code> the file_name of the file</li>
+    </ul>
+    <p>Other properties may be present depending on the type of message.</p>
+    <code>msg.originalMessage</code> contains the raw data object from the underlying library,
+    and contains many useful properties.</p>
+</script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('bale uploader', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: { value: "" },
+            bot: { value:"", type: "bale bot", required: true }
+            // saveDataDir: { value: "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "bale.png",
+        paletteLabel: "uploader",
+        label: function () {
+            return this.name || "Bale uploader";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale uploader">
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="bale uploader">
+    <p>A bale node that uploads files.
+    <p><code>msg.payload.file_address</code> typically contains the file address to upload</p>
+    <p>The output contains msg.payload.content</p>
+    <p><code>msg.payload.content</code> typically contains the parsed data as follows:</p>
+    <ul>
+    <li><code>file_id</code> the file_id of the file</li>
+    <li><code>file_hash</code> the file_hash of the file</li>
+    <li><code>file_name</code> the name of the file</li>
+    <li><code>file_size</code> the size of the file</li>
+    <li><code>thumb</code> the thumb of the file if available</li>
+    <li><code>width</code> the width of the file if it is image or video</li>
+    <li><code>height</code> the height of the file if it is image or video</li>
+    <li><code>mimeType</code> the mimeType of the file</li>
+    <li><code>duration</code> the duration of the file if it is video or voice</li>
+</script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale sender', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: { value: "" },
+            bot: { value: "", type: "bale bot", required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "bale.png",
+        align: "right",
+        paletteLabel: "sender",
+        label: function () {
+            return this.name || "Bale sender";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale sender">
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="bale sender">
+    <p>A bale node that sends the <code>msg.payload</code> to the chat.</p>
+    <p>The <code>msg.payload</code> must be an object that contains a complete set of bale message properties,
+     at a minimum these should contain:
+     <ul>
+     <li><code>content</code> the message contents</li>
+     <li><code>type</code> the type of message contents</li>
+     <li><code>user_id</code> the user_id number</li>
+     <li><code>accessHash</code> the accessHash number</li>
+     </ul>
+    <p>The output message contains an error property if an exception occured.</p>
+</script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale reply', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: { value: "" },
+            bot: { value: "", type: "bale bot", required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "bale.png",
+        align: "right",
+        paletteLabel: "reply",
+        label: function () {
+            return this.name || "Bale reply";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale reply">
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="bale reply">
+    <p>A bale node that is triggered when someone answered to a specified message.</p>
+    <p>This can be useful, when the bot for example sent a message and you want to take some action</p>
+    <p>when someone responded to this specified message.</p>
+    <p>Responding to messages is done by clicking on the message in your client and choose "answer" from the popup.</p>
+    <p>The <code>msg.payload</code> should be an object that contains:</p>
+    <ul><li><code>user_id</code> destination user_id.</li>
+    <li><code>sentMessageId</code> the id of the previously sent message in the chat.</li>
+    <li><code>content</code> the message content.</li></ul>
+</script>
+
