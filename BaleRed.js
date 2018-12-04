@@ -229,7 +229,6 @@ module.exports = function (RED) {
                     }
                     else if (message instanceof VideoMessage) {
                         msg.payload.type = "video";
-
                         msg.payload.content = {};
                         msg.payload.content.caption = message._captionText;
                         msg.payload.content.file_id = message._fileId;
@@ -379,6 +378,12 @@ module.exports = function (RED) {
 
                         let user_peer = new User(user_id, accessHash);
                         var type = msg.payload.type;
+                        node.status({fill: "green", shape: "dot", text: "sending message"});
+                        setTimeout(myFunc, 500);
+
+                        function myFunc() {
+                            node.status({fill: "green", shape: "ring", text: "connected"});
+                        }
                         switch (type) {
                             case 'text':
 
