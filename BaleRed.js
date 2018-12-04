@@ -70,13 +70,18 @@ module.exports = function (RED) {
                             this.baleBot = new Bot(this.token, options);
                             self.status = "connected";
 
-                            // this.baleBot.on('error', function (error) {
-                            //     self.warn(error.message);
-                            //
-                            //     self.abortBot(error.message, function () {
-                            //         self.warn("Bot stopped: Fatal Error.");
-                            //     });
-                            // });
+                            this.baleBot._apiConnection._serverConnection._socketConnection._reconnectingWebSocket.onopen = () => {
+                                self.setNodesStatus({fill: "green", shape: "ring", text: "connected" });
+                                console.log('Socket Connected!')
+                            };
+
+                            this.baleBot._apiConnection._serverConnection._socketConnection._reconnectingWebSocket.onerror = (e) => {
+                                self.warn(e);
+
+                                self.abortBot(e, function () {
+                                    self.warn("Bot stopped: Fatal Error.");
+                                });
+                            };
                         }
                     }
                 }
