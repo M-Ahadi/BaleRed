@@ -138,21 +138,6 @@ module.exports = function (RED) {
             return isAuthorized;
         };
 
-        this.isAuthorized = function (user_id) {
-            var isAuthorizedChatId = self.isAuthorizedChat(user_id);
-
-            var isAuthorized = false;
-
-            if (isAuthorizedChatId) {
-                isAuthorized = true;
-            } else {
-                if (self.user_ids.length === 0) {
-                    isAuthorized = true;
-                }
-            }
-
-            return isAuthorized;
-        };
 
         this.register = function (node) {
             if (self.nodes.indexOf(node) === -1) {
