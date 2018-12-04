@@ -204,18 +204,17 @@ module.exports = function (RED) {
                 this.status({fill: "green", shape: "ring", text: "connected"});
                 node.baleBot.setDefaultCallback((message, responder) => {
                     var msg = {payload: {}};
+                    msg.payload.user_id = responder._peer._id;
+                    msg.payload.accessHash = responder._peer._accessHash;
+                    msg.payload.$type = responder._peer.$type;
+                    msg.payload.effective_msg = message;
+
                     if (message instanceof TextMessage) {
                         msg.payload.type = "text";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
                         msg.payload.content = message.text;
                     }
                     else if (message instanceof PhotoMessage) {
                         msg.payload.type = "photo";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
                         msg.payload.content = {};
                         msg.payload.content.caption = message._captionText;
                         msg.payload.content.file_id = message._fileId;
@@ -231,9 +230,7 @@ module.exports = function (RED) {
                     }
                     else if (message instanceof VideoMessage) {
                         msg.payload.type = "video";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
+
                         msg.payload.content = {};
                         msg.payload.content.caption = message._captionText;
                         msg.payload.content.file_id = message._fileId;
@@ -250,9 +247,6 @@ module.exports = function (RED) {
                     }
                     else if (message instanceof AudioMessage) {
                         msg.payload.type = "audio";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
                         msg.payload.content = {};
                         msg.payload.content.caption = message._captionText;
                         msg.payload.content.file_id = message._fileId;
@@ -265,9 +259,6 @@ module.exports = function (RED) {
                     }
                     else if (message instanceof FileMessage) {
                         msg.payload.type = "document";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
                         msg.payload.content = {};
                         msg.payload.content.caption = message._captionText;
                         msg.payload.content.file_id = message._fileId;
@@ -279,18 +270,12 @@ module.exports = function (RED) {
                     }
                     else if (message instanceof LocationMessage){
                         msg.payload.type = "location";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
                         msg.payload.content = {};
                         msg.payload.content.latitude = message._latitude;
                         msg.payload.content.longitude = message._longitude;
                     }
                     else if (message instanceof ContactMessage){
                         msg.payload.type = "contact";
-                        msg.payload.user_id = responder._peer._id;
-                        msg.payload.accessHash = responder._peer._accessHash;
-                        msg.payload.effective_msg = message;
                         msg.payload.content = {};
                         msg.payload.content.name = message._name;
                         msg.payload.content.emails = message._emails;
@@ -331,15 +316,14 @@ module.exports = function (RED) {
     // accessHash : accessHash of the user
     // type    : string type of message to send
     // The type is a string can be any of the following:
-    // message content is String
+    // text content is String
     // photo    content is String
     // audio    content is String
     // document content is String
     // video    content is String
-    // location content is an object that contains latitude and logitude
+    // location content is an object that contains latitude and longitude
     // contact  content is full contact object
-    // content : message content
-    // content is defined based on the message type
+
     function baleOutNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
@@ -559,16 +543,10 @@ module.exports = function (RED) {
 
     // --------------------------------------------------------------------------------------------
     // The output node sends to the chat and passes the msg through.
-    // The payload needs three fields
-    // user_peer  : Peer of the user
-    // type    : string type of message to send
-    // content : message content
-    // The type is a string can be any of the following:
-    // message content is String
-    // photo    content is String
-    // audio    content is String
-    // document content is String
-    // video    content is String
+    // The payload needs two fields
+    // file_id    : file_id of the file
+    // file_hash : file_hash of the file
+    // file_name : name of the file, if it is empty, a random name will be generated
 
     function baledownloader(config) {
         RED.nodes.createNode(this, config);
@@ -620,7 +598,6 @@ module.exports = function (RED) {
                                     fs.access(file_name, fs.F_OK, (err) => {
                                         if (err) {
                                             console.error(err);
-
                                         }
                                         var file_name2 = file_name.split(".");
                                         let extention = file_name2.pop();
