@@ -175,16 +175,15 @@ module.exports = function (RED) {
     // accessHash
     // type
     // content
-    // depending on type caption and date is part of the output, too.
     // The original message is stored next to payload.
     //
-    // The message ist send to output 1 if the message is from an authorized user
+    // The message is sent to output 1 if the message is from an authorized user
     // and to output2 if the message is not from an authorized user.
     //
-    // text : content string
+    // text    : content string
     // photo   : content file_id and file_hash and other properties
     // audio   : content file_id and file_hash and other properties
-    // docuemnt: content file_id and file_hash and other properties
+    // document: content file_id and file_hash and other properties
     // video   : content file_id and file_hash and other properties
     // voice   : content file_id and file_hash and other properties
     // location: content is object with latitude and longitude
