@@ -256,48 +256,4 @@
 </script>
 
 
-<!-- ------------------------------------------------------------------------------------------ -->
-<script type="text/javascript">
-    RED.nodes.registerType('bale reply', {
-        category: 'BaleRed',
-        color: '#88ddd9',
-        defaults: {
-            name: { value: "" },
-            bot: { value: "", type: "bale bot", required: true }
-        },
-        inputs: 1,
-        outputs: 1,
-        icon: "bale.png",
-        align: "right",
-        paletteLabel: "reply",
-        label: function () {
-            return this.name || "Bale reply";
-        },
-        labelStyle: function() {
-            return this.name?"node_label_italic":"";
-        }
-    });
-</script>
-
-<script type="text/x-red" data-template-name="bale reply">
-    <div class="form-row">
-        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
-        <input type="text" id="node-input-bot" placeholder="Bot">
-    </div>
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-</script>
-
-<script type="text/x-red" data-help-name="bale reply">
-    <p>A bale node that is triggered when someone answered to a specified message.</p>
-    <p>This can be useful, when the bot for example sent a message and you want to take some action</p>
-    <p>when someone responded to this specified message.</p>
-    <p>Responding to messages is done by clicking on the message in your client and choose "answer" from the popup.</p>
-    <p>The <code>msg.payload</code> should be an object that contains:</p>
-    <ul><li><code>user_id</code> destination user_id.</li>
-    <li><code>sentMessageId</code> the id of the previously sent message in the chat.</li>
-    <li><code>content</code> the message content.</li></ul>
-</script>
 
