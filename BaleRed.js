@@ -90,23 +90,23 @@ module.exports = function (RED) {
             return this.baleBot;
         };
 
-
+        
         this.on('close', function (done) {
             self.abortBot("closing", done);
         });
 
         this.abortBot = function (hint, done) {
-            if (self.baleBot !== null) {
+            if (self.baleBot._apiConnection._serverConnection._socketConnection._isOnline) {
                 self.baleBot._apiConnection._serverConnection._socketConnection._reconnectingWebSocket.close().then(function () {
                     self.baleBot = null;
                     self.status = "disconnected";
-                    self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. " + hint});
+                    self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. " });
                     done();
                 })
             }
             else {
                 self.status = "disconnected";
-                self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. " + hint});
+                self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. " });
                 done();
             }
         };
