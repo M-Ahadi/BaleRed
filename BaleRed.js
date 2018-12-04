@@ -196,7 +196,7 @@ module.exports = function (RED) {
     // The message ist send to output 1 if the message is from an authorized user
     // and to output2 if the message is not from an authorized user.
     //
-    // message : content string
+    // text : content string
     // photo   : content file_id and file_hash and other properties
     // audio   : content file_id and file_hash and other properties
     // docuemnt: content file_id and file_hash and other properties
@@ -220,7 +220,7 @@ module.exports = function (RED) {
                 node.baleBot.setDefaultCallback((message, responder) => {
                     var msg = {payload: {}};
                     if (message instanceof TextMessage) {
-                        msg.payload.type = "message";
+                        msg.payload.type = "text";
                         msg.payload.user_id = responder._peer._id;
                         msg.payload.accessHash = responder._peer._accessHash;
                         msg.payload.effective_msg = message;
@@ -402,7 +402,7 @@ module.exports = function (RED) {
                         let user_peer = new User(user_id, accessHash);
                         var type = msg.payload.type;
                         switch (type) {
-                            case 'message':
+                            case 'text':
 
                                 if (this.hasContent(msg)) {
                                     // the maximum message size is 4096 so we must split the message into smaller chunks.
