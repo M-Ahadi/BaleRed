@@ -279,8 +279,7 @@ module.exports = function (RED) {
                         msg.payload.content.emails = message._emails;
                         msg.payload.content.phones = message._phones;
                     }
-
-                    if (msg.payload.$type = "Group"){
+                    if (msg.payload.$type === "Group"){
                         node.send([null,null,msg]);
                     }
                     else if (node.config.isAuthorizedUser(msg.payload.user_id)){
