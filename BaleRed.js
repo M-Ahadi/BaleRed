@@ -67,7 +67,7 @@ module.exports = function (RED) {
                     if (this.token) {
                         this.token = this.token.trim();
                         if (!this.baleBot) {
-                            this.baleBot = new Bot(this.token);
+                            this.baleBot = new Bot(this.token, options);
                             self.status = "connected";
 
                             // this.baleBot.on('error', function (error) {
