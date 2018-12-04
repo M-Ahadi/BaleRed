@@ -635,13 +635,13 @@ module.exports = function (RED) {
                                     node.baleBot.DownloadFile(file_id, file_Hash, 'file', file_name).then(response => {
                                         fs.writeFile(file_name, response, function (err) {
                                             if (err) {
-                                                return console.log(err);
+                                                node.warn(err);
                                             }
 
                                             node.send({payload: "File downloaded successfully.\n" + file_name});
                                         });
                                     }).catch((err) => {
-                                        console.log(err);
+                                        node.warn(err);
                                     });
                                 } else {
                                     node.warn("msg.payload.content.file_hash is empty");
