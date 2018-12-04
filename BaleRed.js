@@ -218,8 +218,6 @@ module.exports = function (RED) {
             if (node.baleBot) {
                 this.status({fill: "green", shape: "ring", text: "connected"});
                 node.baleBot.setDefaultCallback((message, responder) => {
-                    console.log(">>>>>>>>>>>>>");
-                    console.log(message);
                     var msg = {payload: {}};
                     if (message instanceof TextMessage) {
                         msg.payload.type = "message";
@@ -340,18 +338,6 @@ module.exports = function (RED) {
 
     RED.nodes.registerType("bale receiver", BaleInNode);
 
-    function isAuthorizedUser(user) {
-        console.log(user);
-        console.log(this.user_ids);
-        var isAuthorized = false;
-        if (this.user_ids.length > 0) {
-            if (this.user_ids.indexOf(user) >= 0) {
-                isAuthorized = true;
-            }
-        }
-
-        return isAuthorized;
-    }
 
     // --------------------------------------------------------------------------------------------
     // The output node sends to the chat and passes the msg through.
@@ -406,8 +392,6 @@ module.exports = function (RED) {
         };
 
         this.on('input', function (msg) {
-            console.log("bale in" );
-            console.log(msg);
             if (msg.payload) {
                 if (msg.payload.user_id) {
                     if (msg.payload.type) {
@@ -544,14 +528,7 @@ module.exports = function (RED) {
                                     });
                                 }
                                 break;
-                            // case 'location':
-                            //     if (this.hasContent(msg)) {
-                            //         node.baleBot.sendLocation(user_id, msg.payload.content.latitude, msg.payload.content.longitude, msg.payload.options).then(function (sent) {
-                            //             msg.payload.sentMessageId = sent.message_id;
-                            //             node.send(msg);
-                            //         });
-                            //     }
-                            //     break;
+
                             case "location":
                                 if (this.hasContent(msg)){
                                     let messageObjOrFileId = msg.payload.content.latitude;
@@ -572,7 +549,6 @@ module.exports = function (RED) {
                                     node.baleBot.send(effective_msg, user_peer).then(function () {
                                         node.send(msg);
                                     });
-
                                 }
                                 break;
                             default:{
@@ -714,7 +690,6 @@ module.exports = function (RED) {
         }
 
         this.on('input', function (msg) {
-            console.log("uploading");
             if (msg.payload) {
                 if (msg.payload.file_address) {
 
@@ -725,7 +700,6 @@ module.exports = function (RED) {
                             var stats = fs.statSync(msg.payload.file_address);
                             var fileSizeInBytes = stats.size;
                             let mime_type = mime.getType(msg.payload.file_address);
-                            console.log(mime_type);
                             let fileId = response.fileId;
                             let fileAccessHash = response.accessHash;
                             new_msg = {
@@ -759,18 +733,13 @@ module.exports = function (RED) {
                                 var temp_path = msg.payload.file_address.replace(path.basename(msg.payload.file_address), "");
                                 var temp_file_name = random_file_name() + ".png";
 
-                                console.log([new_msg.payload.content.width, new_msg.payload.content.height].join("x"));
                                 ffmpeg(msg.payload.file_address)
                                     .on('filenames', function (filenames) {
-                                        // console.log('Will generate ' + filenames.join(', '));
-                                        // console.log(temp_path + filenames);
-                                        // thumbBuffer = get_thumbnail(temp_path + filenames);
+
                                     })
                                     .on('end', function () {
                                         fs.readFile(temp_path + temp_file_name, function (err, imageBuffer) {
                                             thumbBuffer = new Buffer(imageBuffer).toString('base64');
-                                            //console.log(thumbBuffer);
-
                                             new_msg.payload.content.thumb = thumbBuffer;
                                             node.send(new_msg);
                                             fs.unlinkSync(temp_path + temp_file_name)
@@ -809,7 +778,6 @@ module.exports = function (RED) {
 
                             } else if (mime_type.indexOf("audio") > -1) {
                                 new_msg.payload.type = "audio";
-                                console.log(msg.payload.file_address);
                                 audio_metadata.parseFile(msg.payload.file_address, {native: true})
                                     .then(metadata => {
                                         // console.log(metadata.format.duration);
