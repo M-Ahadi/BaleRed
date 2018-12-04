@@ -281,11 +281,13 @@ module.exports = function (RED) {
                         msg.payload.content.phones = message._phones;
                     }
                     node.status({fill: "green", shape: "ring", text: "connected"});
-                    // console.log(msg);
-                    if (node.config.isAuthorizedUser(msg.payload.user_id)){
-                        node.send([msg,null]);
+                    if (msg.payload.$type = "Group"){
+                        node.send([null,null,msg]);
+                    }
+                    else if (node.config.isAuthorizedUser(msg.payload.user_id)){
+                        node.send([msg,null,null]);
                     } else {
-                        node.send([null,msg]);
+                        node.send([null,msg,null]);
                     }
 
 
