@@ -90,7 +90,7 @@ module.exports = function (RED) {
             return this.baleBot;
         };
 
-        
+
         this.on('close', function (done) {
             self.abortBot("closing", done);
         });
@@ -632,6 +632,19 @@ module.exports = function (RED) {
                                     else {
                                         file_name = saveDataDir + "/" + file_name;
                                     }
+                                    fs.access(file_name, fs.F_OK, (err) => {
+                                        if (err) {
+                                            console.error(err);
+
+                                        }
+                                        var file_name2 = file_name.split(".");
+                                        let extention = file_name2.pop();
+                                        file_name = file_name2.join(".");
+                                        file_name = file_name + "_" + random_file_name() + "." + extention
+
+                                    });
+
+
                                     node.baleBot.DownloadFile(file_id, file_Hash, 'file', file_name).then(response => {
                                         fs.writeFile(file_name, response, function (err) {
                                             if (err) {
