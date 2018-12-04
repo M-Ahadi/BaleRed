@@ -28,6 +28,21 @@ module.exports = function (RED) {
     const path = require("path");
     const ffmpeg = require('fluent-ffmpeg');
     const audio_metadata = require('music-metadata');
+    let options = {
+        log: {
+            enabled: false,
+            level: "DEBUG" // other options: "TRACE", "DEBUG", "WARN", "ERROR", "FATAL"
+        },
+        requestQueue: {
+            fetchInterval: 0, // in ms. the time between sending two consecutive requests.
+            retryInterval: 0, // in ms. the time to wait before resending a failed request.
+            timeout: 10000, // in ms. the time period to try for sending each request. if the request failed again after this time it will be rejected with the "TIME_OUT" message.
+        },
+        socket: {
+            reconnectInterval: 300 // in ms. when the socket disconnects, waits as much as this time and the tries to reconnect.
+        }
+    };
+
 
     function BaleBotNode(n) {
         RED.nodes.createNode(this, n);
