@@ -280,7 +280,7 @@ module.exports = function (RED) {
                         msg.payload.content.emails = message._emails;
                         msg.payload.content.phones = message._phones;
                     }
-                    node.status({fill: "green", shape: "ring", text: "connected"});
+
                     if (msg.payload.$type = "Group"){
                         node.send([null,null,msg]);
                     }
@@ -289,6 +289,14 @@ module.exports = function (RED) {
                     } else {
                         node.send([null,msg,null]);
                     }
+
+                    node.status({fill: "green", shape: "dot", text: "receiving message"});
+                    setTimeout(myFunc, 500);
+
+                    function myFunc() {
+                        node.status({fill: "green", shape: "ring", text: "connected"});
+                    }
+
 
 
                 });
