@@ -1,6 +1,6 @@
 # BaleRed
 
-BaleRed helps you to used [Bale Bot](https://www.npmjs.com/package/balebot) SDK without coding.
+BaleRed helps you to use [Bale Bot](https://www.npmjs.com/package/balebot) SDK without coding.
 With the Receiver and Sender nodes you can receive and send these types of messages:
 - Text Message
 - Photo Message
@@ -16,12 +16,12 @@ The Uploader node helps you to upload any file in your local system to bale serv
 
 Tasks for future:
 
-[ ] Add purchase handler
+- [ ] Add purchase handler
 
-[ ] Add node for money request
+- [ ] Add node for money request
 
-[ ] Add purchase handler
+- [ ] Add purchase handler
 
-[ ] Add node for template message
+- [ ] Add node for template message
 
-[ ] Make it compatible to mix buttons with photos
+- [ ] Make it compatible to mix buttons with photos
