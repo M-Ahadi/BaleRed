@@ -8,7 +8,7 @@
 //todo make it compatible to mix buttons with photos
 
 module.exports = function (RED) {
-    const Platform = require("balebot/index");
+    const Platform = require("balebot_plus/index");
     const Bot = Platform.BaleBot;
     const User = Platform.User;
     const TextMessage = Platform.TextMessage;
