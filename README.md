@@ -20,8 +20,6 @@ Tasks for future:
 
 - [ ] Add node for money request
 
-- [ ] Add purchase handler
-
 - [ ] Add node for template message
 
 - [ ] Make it compatible to mix buttons with photos
