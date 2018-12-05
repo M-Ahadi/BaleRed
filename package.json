@@ -1,7 +1,8 @@
 {
   "name": "balered",
-  "version": "1.0.0",
-  "description": "Bale Red",
+  "version": "1.0.1",
+  "description": "BaleRed is a NodeRed node which helps you to make bale bot without coding",
+  "homepage": "https://github.com/M-Ahadi/BaleRed#readme",
   "scripts": {
     "test": "test"
   },
@@ -12,17 +13,24 @@
     "node red"
   ],
   "dependencies": {
-    "balebot": "2.0.8",
+    "balebot_plus": "^2.1.9",
     "fluent-ffmpeg": "^2.1.2",
     "mime": "^2.3.1",
     "music-metadata": "^3.2.4",
     "sharp": "^0.21.0"
   },
-  "author": "MojtabaAhadi",
-  "license": "ISC",
+  "author": "Mojtaba Ahadi",
+  "license": "MIT",
   "node-red": {
     "nodes": {
-      "baleredbot": "BaleRed.js"
+      "baleredbot": "balered/BaleRed.js"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-Ahadi/BaleRed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/M-Ahadi/BaleRed/issues"
   }
 }
