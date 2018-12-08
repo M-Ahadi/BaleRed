@@ -8,6 +8,13 @@
 //todo make it compatible to mix buttons with photos
 
 module.exports = function (RED) {
+    const PhotoMessageJson = require("../models/photo_message");
+    const VideoMessageJson = require("../models/video_message");
+    const DocumentMessageJson = require("../models/document_message");
+    const AudioMessageJson = require("../models/audio_message");
+    const LocationMessageJson = require("../models/location_message");
+    const ContactMessageJson = require("../models/contact_message");
+
     const Platform = require("balebot_plus/index");
     const Bot = Platform.BaleBot;
     const User = Platform.User;
@@ -21,6 +28,8 @@ module.exports = function (RED) {
     const FileMessage = Platform.FileMessage;
     const LocationMessage = Platform.LocationMessage;
     const ContactMessage = Platform.ContactMessage;
+
+
 
     const fs = require('fs');
     const mime = require('mime');
@@ -129,6 +138,9 @@ module.exports = function (RED) {
 
         this.isAuthorizedUser = function (user) {
             var isAuthorized = false;
+            if (self.user_ids.length =0)
+                return true;
+
             if (self.user_ids.length > 0) {
                 if (self.user_ids.indexOf(user) >= 0) {
                     isAuthorized = true;
@@ -214,70 +226,31 @@ module.exports = function (RED) {
                     }
                     else if (message instanceof PhotoMessage) {
                         msg.payload.type = "photo";
-                        msg.payload.content = {};
-                        msg.payload.content.caption = message._captionText;
-                        msg.payload.content.file_id = message._fileId;
-                        msg.payload.content.file_hash = message._accessHash;
-                        msg.payload.content.file_name = message._name;
-                        msg.payload.content.file_size = message._fileSize;
-                        msg.payload.content.thumb = message._thumb;
-                        msg.payload.content.width = message._width;
-                        msg.payload.content.height = message._height;
-                        msg.payload.content.mimeType = message._mimeType;
+                        msg.payload.content = PhotoMessageJson.get_json(message);
                         msg.payload.blob = true;
-
                     }
                     else if (message instanceof VideoMessage) {
                         msg.payload.type = "video";
-                        msg.payload.content = {};
-                        msg.payload.content.caption = message._captionText;
-                        msg.payload.content.file_id = message._fileId;
-                        msg.payload.content.file_hash = message._accessHash;
-                        msg.payload.content.file_name = message._name;
-                        msg.payload.content.file_size = message._fileSize;
-                        msg.payload.content.thumb = message._thumb;
-                        msg.payload.content.width = message._width;
-                        msg.payload.content.height = message._height;
-                        msg.payload.content.mimeType = message._mimeType;
-                        msg.payload.content.duration = message._duration;
+                        msg.payload.content  = VideoMessageJson.get_json(message);
                         msg.payload.blob = true;
-
                     }
                     else if (message instanceof AudioMessage) {
                         msg.payload.type = "audio";
-                        msg.payload.content = {};
-                        msg.payload.content.caption = message._captionText;
-                        msg.payload.content.file_id = message._fileId;
-                        msg.payload.content.file_hash = message._accessHash;
-                        msg.payload.content.file_name = message._name;
-                        msg.payload.content.file_size = message._fileSize;
-                        msg.payload.content.mimeType = message._mimeType;
-                        msg.payload.content.duration = message._duration;
+                        msg.payload.content = AudioMessageJson.get_json(message);
                         msg.payload.blob = true;
                     }
                     else if (message instanceof FileMessage) {
                         msg.payload.type = "document";
-                        msg.payload.content = {};
-                        msg.payload.content.caption = message._captionText;
-                        msg.payload.content.file_id = message._fileId;
-                        msg.payload.content.file_hash = message._accessHash;
-                        msg.payload.content.file_name = message._name;
-                        msg.payload.content.file_size = message._fileSize;
-                        msg.payload.content.mimeType = message._mimeType;
+                        msg.payload.content = DocumentMessageJson.get_json(message);
                         msg.payload.blob = true;
                     }
                     else if (message instanceof LocationMessage){
                         msg.payload.type = "location";
-                        msg.payload.content = {};
-                        msg.payload.content.latitude = message._latitude;
-                        msg.payload.content.longitude = message._longitude;
+                        msg.payload.content = LocationMessageJson.get_json(message);
                     }
                     else if (message instanceof ContactMessage){
                         msg.payload.type = "contact";
-                        msg.payload.content = {};
-                        msg.payload.content.name = message._name;
-                        msg.payload.content.emails = message._emails;
-                        msg.payload.content.phones = message._phones;
+                        msg.payload.content = ContactMessageJson.get_json(message)
                     }
                     if (msg.payload.$type === "Group"){
                         node.send([null,null,msg]);
@@ -425,18 +398,7 @@ module.exports = function (RED) {
                                 break;
                             case 'photo':
                                 if (this.hasContent(msg)) {
-
-                                    let messageObjOrFileId = msg.payload.content.file_id;
-                                    let file_Hash = msg.payload.content.file_hash;
-                                    let file_name = msg.payload.content.file_name;
-                                    let fileSize = msg.payload.content.file_size;
-                                    let mimeType = msg.payload.content.mimeType;
-                                    let captionText = msg.payload.content.caption;
-                                    let width = msg.payload.content.width;
-                                    let height = msg.payload.content.height;
-                                    let thumb = msg.payload.content.thumb;
-                                    let effective_msg = new PhotoMessage(messageObjOrFileId, file_Hash.toString(), file_name, fileSize, mimeType, captionText, width, height, thumb);
-
+                                    let effective_msg = PhotoMessageJson.load_json(msg);
                                     node.baleBot.send(effective_msg, user_peer).then(function (sent) {
                                         msg.payload.effective_msg = sent.effective_msg;
                                         node.send(msg);
@@ -446,15 +408,7 @@ module.exports = function (RED) {
                             case 'audio':
 
                                 if (this.hasContent(msg)) {
-                                    let messageObjOrFileId = msg.payload.content.file_id;
-                                    let file_Hash = msg.payload.content.file_hash;
-                                    let file_name = msg.payload.content.file_name;
-                                    let fileSize = msg.payload.content.file_size;
-                                    let mimeType = msg.payload.content.mimeType;
-                                    let captionText = msg.payload.content.caption;
-                                    let duration = msg.payload.content.duration;
-                                    let effective_msg = new AudioMessage(messageObjOrFileId, file_Hash, file_name, fileSize, mimeType, captionText, duration);
-
+                                    let effective_msg = AudioMessageJson.load_json(msg);
                                     node.baleBot.send(effective_msg, user_peer).then(function () {
                                         node.send(msg);
                                     });
@@ -462,15 +416,7 @@ module.exports = function (RED) {
                                 break;
                             case 'document':
                                 if (this.hasContent(msg)) {
-
-                                    let messageObjOrFileId = msg.payload.content.file_id;
-                                    let file_Hash = msg.payload.content.file_hash;
-                                    let file_name = msg.payload.content.file_name;
-                                    let fileSize = msg.payload.content.file_size;
-                                    let mimeType = msg.payload.content.mimeType;
-                                    let captionText = msg.payload.content.caption;
-
-                                    let effective_msg = new FileMessage(messageObjOrFileId, file_Hash, file_name, fileSize, mimeType, captionText);
+                                    let effective_msg = DocumentMessageJson.load_json(msg);
                                     node.baleBot.send(effective_msg, user_peer).then(function () {
                                         node.send(msg);
                                     });
@@ -478,33 +424,7 @@ module.exports = function (RED) {
                                 break;
                             case 'video':
                                 if (this.hasContent(msg)) {
-                                    let messageObjOrFileId = msg.payload.content.file_id;
-                                    let file_Hash = msg.payload.content.file_hash;
-                                    let file_name = msg.payload.content.file_name;
-                                    let fileSize = msg.payload.content.file_size;
-                                    let mimeType = msg.payload.content.mimeType;
-                                    let captionText = msg.payload.content.caption;
-                                    let duration = msg.payload.content.duration;
-                                    let width = msg.payload.content.width;
-                                    let height = msg.payload.content.height;
-                                    let thumb = msg.payload.content.thumb;
-                                    let effective_msg = new VideoMessage(messageObjOrFileId, file_Hash, file_name, fileSize, mimeType, captionText, width, height, thumb, duration);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
-                                        node.send(msg);
-                                    });
-                                }
-                                break;
-                            case 'voice':
-                                if (this.hasContent(msg)) {
-                                    let messageObjOrFileId = msg.payload.content.file_id;
-                                    let file_Hash = msg.payload.content.file_hash;
-                                    let file_name = msg.payload.content.file_name;
-                                    let fileSize = msg.payload.content.file_size;
-                                    let mimeType = msg.payload.content.mimeType;
-                                    let captionText = msg.payload.content.caption;
-                                    let duration = msg.payload.content.duration;
-                                    let effective_msg = new AudioMessage(messageObjOrFileId, file_Hash, file_name, fileSize, mimeType, captionText, duration);
-
+                                    let effective_msg =  VideoMessageJson.load_json(msg);
                                     node.baleBot.send(effective_msg, user_peer).then(function () {
                                         node.send(msg);
                                     });
@@ -513,9 +433,7 @@ module.exports = function (RED) {
 
                             case "location":
                                 if (this.hasContent(msg)){
-                                    let messageObjOrFileId = msg.payload.content.latitude;
-                                    let longitude = msg.payload.content.longitude;
-                                    let effective_msg = new LocationMessage(messageObjOrFileId, longitude);
+                                    let effective_msg = LocationMessageJson.load_json(msg);
                                     node.baleBot.send(effective_msg, user_peer).then(function () {
                                         node.send(msg);
                                     });
@@ -524,10 +442,7 @@ module.exports = function (RED) {
 
                             case "contact":
                                 if (this.hasContent(msg)){
-                                    let messageObjOrFileId = msg.payload.content.name;
-                                    let emails = msg.payload.content.emails;
-                                    let phones = msg.payload.content.phones;
-                                    let effective_msg = new ContactMessage(messageObjOrFileId, emails, phones);
+                                    let effective_msg = ContactMessageJson.load_json(msg);
                                     node.baleBot.send(effective_msg, user_peer).then(function () {
                                         node.send(msg);
                                     });
