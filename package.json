@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-balered",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "BaleRed is a NodeRed node which helps you to make bale bot without coding",
   "homepage": "https://github.com/M-Ahadi/BaleRed#readme",
   "scripts": {
@@ -13,7 +13,7 @@
     "node red"
   ],
   "dependencies": {
-    "balebot_plus": "^2.1.9",
+    "balebot_plus": "^2.1.10",
     "fluent-ffmpeg": "^2.1.2",
     "mime": "^2.3.1",
     "music-metadata": "^3.2.4",
