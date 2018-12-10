@@ -6,11 +6,11 @@
     RED.nodes.registerType('bale bot', {
         category: 'config',
         defaults: {
-            botname: { value: "", required: true },
-            user_ids: { value: "", required: false },
+            botname: {value: "", required: true},
+            user_ids: {value: "", required: false},
         },
         credentials: {
-            token: { type: "text" }
+            token: {type: "text"}
         },
         label: function () {
             return this.botname;
@@ -31,6 +31,8 @@
         <label for="node-config-input-user_ids"><i class="fa fa-comment"></i> user_ids</label>
         <input type="text" id="node-config-input-user_ids" placeholder="(Optional list of authorized user_ids e.g.: 1234567,2345678,3456789)">
     </div>
+
+
 </script>
 
 <script type="text/x-red" data-help-name="bale bot">
@@ -39,6 +41,8 @@
         It communicates with the bale server. Do not create several configurations nodes with the same token!
         The user ids properties can be used to limit authorization to the bot. Enter values in comma separated format e.g. a,b,c
     </p>
+
+
 </script>
 
 
@@ -48,20 +52,20 @@
         category: 'BaleRed',
         color: '#88ddd9',
         defaults: {
-            name: { value: "" },
-            bot: { value:"", type: "bale bot", required: true },
-            saveDataDir: { value: "" }
+            name: {value: ""},
+            bot: {value: "", type: "bale bot", required: true},
+            saveDataDir: {value: ""}
         },
         inputs: 0,
         outputs: 3,
-        outputLabels: ["Authorized Users","Unauthorized Users","Groups message"],
+        outputLabels: ["Authorized Users", "Unauthorized Users", "Groups message"],
         icon: "bale.png",
         paletteLabel: "receiver",
         label: function () {
             return this.name || "Bale receiver";
         },
-        labelStyle: function() {
-            return this.name?"node_label_italic":"";
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
         }
     });
 </script>
@@ -75,13 +79,15 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+
 </script>
 
 <script type="text/x-red" data-help-name="bale receiver">
     <p>A bale node that triggers the output when some message is received from the chat.
     Message is sent to output 1 if it comes from an authorized user.
     Message is sent to output 2 if it comes from an non-authorized user.</p>
-    Message is sent to output 3 if it comes from a group user.</p>
+    Message is sent to output 3 if it comes from a group or channel.</p>
     <p><code>msg.payload</code> typically contains the parsed data as follows:</p>
     <ul>
     <li><code>content</code> the message contents</li>
@@ -92,6 +98,70 @@
     <p>Other properties may be present depending on the type of message.</p>
     <code>msg.effective_msg</code> contains the raw data object from the underlying library,
     and contains many useful properties.</p>
+    <p>If message type is Text Message, the <code>content</code> contains the received text</p>
+    <p>If message type is Photo Message, the <code>content</code> contains these elements
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>thumb</code></li>
+    <li><code>width</code></li>
+    <li><code>height</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Video Message, the <code>content</code> contains these elements
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>thumb</code></li>
+    <li><code>width</code></li>
+    <li><code>height</code></li>
+    <li><code>duration</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Audio Message, the <code>content</code> contains these elements
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>duration</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Document (File) Message, the <code>content</code> contains these elements
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Location Message, the <code>content</code> contains these elements
+    <ul>
+    <li><code>latitude</code></li>
+    <li><code>longitude</code></li>
+    </ul>
+    </p>
+    <p>If message type is Contact Message, the <code>content</code> contains these elements
+    <ul>
+    <li><code>name</code></li>
+    <li><code>emails</code></li>
+    <li><code>phones</code></li>
+    </ul>
+    </p>
+
+
 </script>
 
 
@@ -101,9 +171,9 @@
         category: 'BaleRed',
         color: '#88ddd9',
         defaults: {
-            name: { value: "" },
-            bot: { value:"", type: "bale bot", required: true },
-            saveDataDir: { value: "" }
+            name: {value: ""},
+            bot: {value: "", type: "bale bot", required: true},
+            saveDataDir: {value: ""}
         },
         inputs: 1,
         outputs: 1,
@@ -112,8 +182,8 @@
         label: function () {
             return this.name || "Bale downloader";
         },
-        labelStyle: function() {
-            return this.name?"node_label_italic":"";
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
         }
     });
 </script>
@@ -131,6 +201,8 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+
 </script>
 
 <script type="text/x-red" data-help-name="bale downloader">
@@ -141,6 +213,8 @@
     <li><code>file_hash</code> the file_hash string</li>
     <li><code>file_name</code> name of the file</li>
     </ul>
+
+
 </script>
 
 
@@ -151,8 +225,8 @@
         category: 'BaleRed',
         color: '#88ddd9',
         defaults: {
-            name: { value: "" },
-            bot: { value:"", type: "bale bot", required: true }
+            name: {value: ""},
+            bot: {value: "", type: "bale bot", required: true}
             // saveDataDir: { value: "" }
         },
         inputs: 1,
@@ -162,8 +236,8 @@
         label: function () {
             return this.name || "Bale uploader";
         },
-        labelStyle: function() {
-            return this.name?"node_label_italic":"";
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
         }
     });
 </script>
@@ -177,6 +251,8 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+
 </script>
 
 <script type="text/x-red" data-help-name="bale uploader">
@@ -194,6 +270,8 @@
     <li><code>height</code> the height of the file if it is image or video</li>
     <li><code>mimeType</code> the mimeType of the file</li>
     <li><code>duration</code> the duration of the file if it is video or voice</li>
+
+
 </script>
 
 
@@ -203,8 +281,8 @@
         category: 'BaleRed',
         color: '#88ddd9',
         defaults: {
-            name: { value: "" },
-            bot: { value: "", type: "bale bot", required: true }
+            name: {value: ""},
+            bot: {value: "", type: "bale bot", required: true}
         },
         inputs: 1,
         outputs: 1,
@@ -214,8 +292,8 @@
         label: function () {
             return this.name || "Bale sender";
         },
-        labelStyle: function() {
-            return this.name?"node_label_italic":"";
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
         }
     });
 </script>
@@ -229,6 +307,8 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+
 </script>
 
 <script type="text/x-red" data-help-name="bale sender">
@@ -241,7 +321,104 @@
      <li><code>user_id</code> the user_id number</li>
      <li><code>accessHash</code> the accessHash number</li>
      </ul>
-    <p>The output message contains an error property if an exception occured.</p>
+    <p>If message type is Text Message, the <code>payload</code> should contain</p>
+    <li><code>type</code> = "text"</li>
+    <li><code>content</code> ="The text you want to send"</li>
+
+    <p>If message type is Photo Message, the <code>payload</code> should contain these elements
+    <ul>
+    <li><code>type</code> = "photo"</li>
+    <li><code>content</code></li>
+    </ul>
+    <p>The content should include these elements:
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>thumb</code></li>
+    <li><code>width</code></li>
+    <li><code>height</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Video Message, the <code>payload</code> should contain these elements
+    <ul>
+    <li><code>type</code> = "video"</li>
+    <li><code>content</code></li>
+    </ul>
+    <p>The content should include these elements:
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>thumb</code></li>
+    <li><code>width</code></li>
+    <li><code>height</code></li>
+    <li><code>duration</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Audio Message, the <code>payload</code> should contain these elements
+    <ul>
+    <li><code>type</code> = "audio"</li>
+    <li><code>content</code></li>
+    </ul>
+    <p>The content should include these elements:
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>duration</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Document (File) Message, the <code>payload</code> should contain these elements
+    <ul>
+    <li><code>type</code> = "document"</li>
+    <li><code>content</code></li>
+    </ul>
+    <p>The content should include these elements:
+    <ul>
+    <li><code>caption</code></li>
+    <li><code>file_id</code></li>
+    <li><code>file_hash</code></li>
+    <li><code>file_name</code></li>
+    <li><code>file_size</code></li>
+    <li><code>mimeType</code></li>
+    </ul>
+    </p>
+    <p>If message type is Location Message, the <code>payload</code> should contain these elements
+    <ul>
+    <li><code>type</code> = "location"</li>
+    <li><code>content</code></li>
+    </ul>
+    <p>The content should include these elements:
+    <ul>
+    <li><code>latitude</code></li>
+    <li><code>longitude</code></li>
+    </ul>
+    </p>
+        <p>If message type is Contact Message, the <code>payload</code> should contain these elements
+    <ul>
+    <li><code>type</code> = "contact"</li>
+    <li><code>content</code></li>
+    </ul>
+    <p>The content should include these elements:
+    <ul>
+    <li><code>name</code></li>
+    <li><code>emails</code></li>
+    <li><code>phones</code></li>
+    </ul>
+    </p>
+    <p>The output message contains an error property if an exception occurred.</p>
+
+
 </script>
 
 
