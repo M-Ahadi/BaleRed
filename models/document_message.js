@@ -10,9 +10,6 @@ module.exports = {
         content.file_hash = message._accessHash;
         content.file_name = message._name;
         content.file_size = message._fileSize;
-        content.thumb = message._thumb;
-        content.width = message._width;
-        content.height = message._height;
         content.mimeType = message._mimeType;
         return content;
     },
