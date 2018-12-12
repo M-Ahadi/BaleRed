@@ -197,11 +197,11 @@ payload.accessHash = "accessHash of the client"
 
 payload.type = "document"
 
-payload.content.caption = "caption of the audio"
+payload.content.caption = "caption of the file"
 
-payload.content.file_id = "file_id of the audio"
+payload.content.file_id = "file_id of the file"
 
-payload.content.file_hash = "accessHash of the audio"
+payload.content.file_hash = "accessHash of the file"
 
 payload.content.file_name = "name of the file"
 
