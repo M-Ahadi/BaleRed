@@ -27,7 +27,7 @@ Tasks for future:
 
 
 
-#What is Bale Red
+# What is Bale Red
 
 Bale Red a series of Node-red nodes which helps to make bots in Bale Messenger platform. With these nodes you don't need to use bale SDK to make Bot. 
 
@@ -52,7 +52,7 @@ As another example, in order to download all files sent to your bot you can conn
 </p>
 
 
-##How to config Bale Red
+## How to config Bale Red
 The first step in using Bale Red is setting the Token which has been given by BotFather. In order to set the Token follow these steps.
 
 <p align="center">
@@ -66,9 +66,9 @@ send message to your bot. With this config you can choose who can work with your
   <img src="https://user-images.githubusercontent.com/37385157/49872146-771a5d00-fe2d-11e8-9379-c3187d659a20.png"  title="Node Configuration">
 </p>
 
-#Nodes
+# Nodes
 
-##Receiver Node
+## Receiver Node
 
 This node gets the message from clients and send the message through its output. The supported messages are :
 Text Message, Photo Message, Video Message, Audio Message, Document Message, Contact Message, and  Location Message
@@ -90,7 +90,7 @@ Location Message: Includes Latitude and Longitude of the location
 
 Output of the Receiver node changes based on the message type.
 
-###Text Message
+### Text Message
 
 The Receiver output includes these parameters when a text message is sent to the bot:
 ```
@@ -104,7 +104,7 @@ payload.content = "text message data"
 ```
 As can be seen the output has three main sections: user_id and accessHash of the user, message type, and message content
 
-###Photo Message
+### Photo Message
 
 The Receiver output includes these parameters when a photo message is sent to the bot:
 ```
@@ -132,7 +132,7 @@ payload.content.height = "height of the photo"
 
 payload.content.mimeType = "mime type of the photo"
 ```
-###Video Message
+### Video Message
 
 The Receiver output includes these parameters when a video message is sent to the bot:
 ```
@@ -162,7 +162,7 @@ payload.content.mimeType = "mime type of the video"
 
 payload.content.ducation = "length of the video in seconds"
 ```
-###Audio Message
+### Audio Message
 
 The Receiver output includes these parameters when a audio message is sent to the bot:
 ```
@@ -187,7 +187,7 @@ payload.content.mimeType = "mime type of the audio"
 payload.content.ducation = "length of the video in seconds"
 ```
 
-###Document Message
+### Document Message
 The Receiver output includes these parameters when a document message is sent to the bot:
 
 ```
@@ -211,7 +211,7 @@ payload.content.mimeType = "mime type of the file"
 
 ```
 
-###Contact Message
+### Contact Message
 
 The Receiver output includes these parameters when a contact message is sent to the bot:
 ```
@@ -228,7 +228,7 @@ payload.content.emails = "list of emails"
 payload.content.phones = "list of phones"
 ```
 
-###Location Message
+### Location Message
 
 The Receiver output includes these parameters when a location message is sent to the bot:
 ```
@@ -245,7 +245,7 @@ payload.content.longitude = "longitude of the location"
 
 It is necessary to know these parameters if you need to store and use the data later.
 
-###Receiver Node Outputs
+### Receiver Node Outputs
 The Receiver node has three outputs.
 The first output is for authorized users. If no user has been added, all messages will be in this output.
 
@@ -253,17 +253,18 @@ The second output is for none authorized users.
 
 The last output is for messages which comes from Groups and Channels.
 
-##Sender Node
+## Sender Node
 You should consider that if you want to send a message, the format of the input should be the same as the format of Receiver node's output.
 
-##Downloader Node
+## Downloader Node
 In order to download a file it is necessary to give file_id, file_hash, and file_name to the node. The file location can be 
 chosen in the node's config.
  
 <p align="center">
   <img src="https://user-images.githubusercontent.com/37385157/49872959-e09b6b00-fe2f-11e8-957d-c8556bc0209f.png"  title="Select Download Directory">
 </p>
-##Uploader Node
+
+## Uploader Node
 In order to use the Uploader node, it is necessary to send the file location in local directory. After this node 
 it is necessary to add user's data (user_id and accessHash). 
 ```
@@ -291,11 +292,11 @@ Image below shows the general usage of all the nodes.
 </p>
 
 
-#How to Install Bale Red
+# How to Install Bale Red
 
-##Ubuntu
+## Ubuntu
 
-###Install Node-red
+### Install Node-red
 
 Start a Terminal and run these commends
 ```
@@ -352,7 +353,7 @@ If you need to stop node-red you can use this command:
 sudo systemctl stop node-red
 ```
 
-###Install Bale Red
+### Install Bale Red
 
 In order to install Bale Red start a Terminal and run these commands:
 ```
@@ -362,9 +363,9 @@ npm install node-red-contrib-balered
 ```
 After installing Bale Red restart node-red so new nodes be loaded. 
 
-##Install in Windows
+## Install in Windows
 
-###Install Node-Red
+### Install Node-Red
 
 Download and install node.js version LTS from [https://nodejs.org/en/](https://nodejs.org/en/)
 After installing node.js start a command windows and run these commands: 
@@ -389,7 +390,7 @@ cd d:\Users\<user>\AppData\Roaming\npm\node-red.cmd
 (replacing <user> with your actual user name).
 
 
-###Install Bale Red
+### Install Bale Red
 
 In order to install Bale Red start a command windows and go to this directory
 ```
