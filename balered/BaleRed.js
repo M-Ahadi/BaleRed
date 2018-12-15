@@ -18,6 +18,7 @@ module.exports = function (RED) {
     const Platform = require("balebot_plus/index");
     const Bot = Platform.BaleBot;
     const User = Platform.User;
+    const Group  = Platform.Group;
     const TextMessage = Platform.TextMessage;
     const PhotoMessage = Platform.PhotoMessage;
     const VideoMessage = Platform.VideoMessage;
@@ -347,8 +348,12 @@ module.exports = function (RED) {
 
                         var user_id = msg.payload.user_id;
                         var accessHash = msg.payload.accessHash;
-
-                        let user_peer = new User(user_id, accessHash);
+                        var user_peer;
+                        if (msg.payload.$type === "Group"){
+                            user_peer = new Group(user_id, accessHash);}
+                        else{
+                            user_peer = new User(user_id, accessHash);
+                            }
                         var type = msg.payload.type;
                         node.status({fill: "green", shape: "dot", text: "sending message"});
                         setTimeout(myFunc, 500);
@@ -358,7 +363,6 @@ module.exports = function (RED) {
                         }
                         switch (type) {
                             case 'text':
-
                                 if (this.hasContent(msg)) {
                                     // the maximum message size is 4096 so we must split the message into smaller chunks.
                                     var chunkSize = 4000;
@@ -375,7 +379,7 @@ module.exports = function (RED) {
                                             done = true;
                                         }
                                         let effective_msg = new TextMessage(messageToSend);
-                                        node.baleBot.send(effective_msg, new User(user_id, accessHash)).then(function (sent) {
+                                        node.baleBot.send(effective_msg, user_peer).then(function (sent) {
                                             msg.payload.effective_msg = sent.effective_msg;
                                             node.send(msg);
                                         }).catch(function (err) {
