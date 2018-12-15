@@ -139,9 +139,9 @@ module.exports = function (RED) {
 
         this.isAuthorizedUser = function (user) {
             var isAuthorized = false;
-            if (self.user_ids.length =0)
+            if (self.user_ids.length ===0){
                 return true;
-
+            }
             if (self.user_ids.length > 0) {
                 if (self.user_ids.indexOf(user) >= 0) {
                     isAuthorized = true;
