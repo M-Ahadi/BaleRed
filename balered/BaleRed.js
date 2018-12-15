@@ -90,6 +90,7 @@ module.exports = function (RED) {
 
                                 self.abortBot(e, function () {
                                     self.warn("Bot stopped: Fatal Error.");
+                                    console.log("Bot stopped: Fatal Error.");
                                 });
                             };
                         }
