@@ -16,9 +16,9 @@ The Uploader node helps you to upload any file in your local system to bale serv
 
 Tasks for future:
 
-- [ ] Add purchase handler
+- [X] Add purchase handler
 
-- [ ] Add node for money request
+- [X] Add node for money request
 
 - [ ] Add node for template message
 
