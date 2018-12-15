@@ -227,7 +227,6 @@
         defaults: {
             name: {value: ""},
             bot: {value: "", type: "bale bot", required: true}
-            // saveDataDir: { value: "" }
         },
         inputs: 1,
         outputs: 1,
@@ -270,6 +269,62 @@
     <li><code>height</code> the height of the file if it is image or video</li>
     <li><code>mimeType</code> the mimeType of the file</li>
     <li><code>duration</code> the duration of the file if it is video or voice</li>
+
+
+</script>
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale money', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: {value: ""},
+            bot: {value: "", type: "bale bot", required: true},
+            cardNumber: {value: ""},
+            Amount: {value: 0}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "bale.png",
+        paletteLabel: "money",
+        label: function () {
+            return this.name || "Bale money";
+        },
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale money">
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+    <div class="form-row">
+        <label for="node-input-cardNumber"><i class="fa fa-hdd-o"></i>Card Number</label>
+        <input type="text" id="node-input-cardNumber" placeholder="Card Number">
+    </div>
+    <div class="form-row">
+    <label for="node-input-Amount"><i class="fa fa-hdd-o"></i>Amount (Rials)</label>
+    <input type="text" id="node-input-Amount" placeholder="Amount (Rials)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+
+</script>
+
+<script type="text/x-red" data-help-name="bale money">
+    <p>A bale node that sends money request.
+    <p><code>msg.payload.content</code> typically contains the parsed data as follows:</p>
+    <ul>
+    <li><code>card_number</code> the card number you want to transfer money to</li>
+    <li><code>amount</code> the amount of money in Rials</li>
+    </ul>
 
 
 </script>
