@@ -14,6 +14,7 @@ module.exports = function (RED) {
     const AudioMessageJson = require("../models/audio_message");
     const LocationMessageJson = require("../models/location_message");
     const ContactMessageJson = require("../models/contact_message");
+    const PurchaseMessageJson = require("../models/purchase_message");
 
     const Platform = require("balebot_plus/index");
     const Bot = Platform.BaleBot;
@@ -78,7 +79,7 @@ module.exports = function (RED) {
                         this.token = this.token.trim();
                         if (!this.baleBot) {
                             this.baleBot = new Bot(this.token, options);
-                            self.status = "connected";
+                            //self.status = "connected";
 
                             this.baleBot._apiConnection._serverConnection._socketConnection._reconnectingWebSocket.onopen = () => {
                                 self.setNodesStatus({fill: "green", shape: "ring", text: "connected" });
@@ -217,6 +218,7 @@ module.exports = function (RED) {
                 this.status({fill: "green", shape: "ring", text: "connected"});
                 node.baleBot.setDefaultCallback((message, responder) => {
                     var msg = {payload: {}};
+                    console.log(message);
                     msg.payload.user_id = responder._peer._id;
                     msg.payload.accessHash = responder._peer._accessHash;
                     msg.payload.$type = responder._peer.$type;
@@ -253,6 +255,10 @@ module.exports = function (RED) {
                     else if (message instanceof ContactMessage){
                         msg.payload.type = "contact";
                         msg.payload.content = ContactMessageJson.get_json(message)
+                    }
+                    else if (message instanceof ReceiptMessage){
+                        msg.payload.type = "receipt";
+                        msg.payload.content = PurchaseMessageJson.get_json(message);
                     }
                     if (msg.payload.$type === "Group"){
                         node.send([null,null,msg]);
@@ -453,6 +459,14 @@ module.exports = function (RED) {
                                     });
                                 }
                                 break;
+                            case "money":
+                                if (this.hasContent(msg)){
+                                    let effective_msg = PurchaseMessageJson.load_json(msg);
+                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                        node.send(msg);
+                                    });
+                                }
+                                break;
                             default:{
 
                             }
@@ -530,7 +544,7 @@ module.exports = function (RED) {
                                     }
                                     fs.access(file_name, fs.F_OK, (err) => {
                                         if (err) {
-                                            console.error(err);
+                                            //console.error(err);
                                         }
                                         var file_name2 = file_name.split(".");
                                         let extention = file_name2.pop();
@@ -572,6 +586,74 @@ module.exports = function (RED) {
     }
 
     RED.nodes.registerType("bale downloader", baledownloader);
+
+
+
+    // --------------------------------------------------------------------------------------------
+    // The output node sends to the chat and passes the msg through.
+    // The payload needs two fields
+    // file_id    : file_id of the file
+    // file_hash : file_hash of the file
+    // file_name : name of the file, if it is empty, a random name will be generated
+
+    function balemoney(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+        this.bot = config.bot;
+
+        this.config = RED.nodes.getNode(this.bot);
+        if (this.config) {
+            this.config.register(node);
+
+            this.status({fill: "red", shape: "ring", text: "disconnected"});
+
+            node.baleBot = this.config.getBaleBot();
+            if (node.baleBot) {
+                this.status({fill: "green", shape: "ring", text: "connected"});
+            } else {
+                node.warn("bot not initialized.");
+                this.status({fill: "red", shape: "ring", text: "bot not initialized"});
+            }
+        } else {
+            node.warn("config node failed to initialize.");
+            this.status({fill: "red", shape: "ring", text: "config node failed to initialize."});
+        }
+
+        var cardNumber = config.cardNumber;
+        var amount = config.Amount;
+
+        this.on('input', function (msg) {
+
+            if (msg.payload.type === "photo"){
+                msg.payload.type = "money";
+                if (msg.payload.content.card_number){
+                    cardNumber = msg.payload.content.card_number;
+                }
+                if (msg.payload.content.amount){
+                    amount = msg.payload.content.amount;
+                }
+
+                if  (!cardNumber){
+                    node.warn("card number is unknown");
+                }
+                if  (!amount){
+                    amount = 0
+                }
+                if (cardNumber && amount !== null){
+                    msg.payload.content.amount = amount;
+                    msg.payload.content.card_number = cardNumber;
+
+                    node.send(msg)
+                }
+            }else{
+                node.warn("You have to give a uploaded photo as input")
+            }
+
+        });
+
+    }
+
+    RED.nodes.registerType("bale money", balemoney);
 
 
     function baleuploader(config) {
