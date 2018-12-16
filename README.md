@@ -385,7 +385,7 @@ Go to the start menu and type “task scheduler” and click on the result.
 Click on “Create Task…” in the right-hand menu. Follow the steps to create a new task.
 Make sure that you use the user login that you’ve used to set up and do the initial run of Node-RED. You can use an “At startup” trigger to always run Node-RED at system startup. Use the Action “Start a program” with details set to
 ```
-cd d:\Users\<user>\AppData\Roaming\npm\node-red.cmd
+d:\Users\<user>\AppData\Roaming\npm\node-red.cmd
 ```
 (replacing <user> with your actual user name).
 
@@ -394,7 +394,7 @@ cd d:\Users\<user>\AppData\Roaming\npm\node-red.cmd
 
 In order to install Bale Red start a command windows and go to this directory
 ```
-c:\users\<user>\.node-red
+cd c:\users\<user>\.node-red
 ```
 and run this command
 ```
