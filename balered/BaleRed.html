@@ -179,6 +179,8 @@
         outputs: 1,
         icon: "bale.png",
         paletteLabel: "downloader",
+        inputLabels: ["File Message"],
+        outputLabels: ["File location"],
         label: function () {
             return this.name || "Bale downloader";
         },
@@ -232,6 +234,8 @@
         outputs: 1,
         icon: "bale.png",
         paletteLabel: "uploader",
+        inputLabels: ["File location"],
+        outputLabels: ["File uploaded data"],
         label: function () {
             return this.name || "Bale uploader";
         },
@@ -287,6 +291,8 @@
         inputs: 1,
         outputs: 1,
         icon: "bale.png",
+        inputLabels: ["Photo Message"],
+        outputLabels: ["Money Message"],
         paletteLabel: "money",
         label: function () {
             return this.name || "Bale money";
@@ -344,6 +350,8 @@
         icon: "bale.png",
         align: "right",
         paletteLabel: "sender",
+        inputLabels: ["Message"],
+        outputLabels: ["Message Log"],
         label: function () {
             return this.name || "Bale sender";
         },
