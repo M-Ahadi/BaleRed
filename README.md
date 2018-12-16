@@ -74,19 +74,13 @@ This node gets the message from clients and send the message through its output.
 Text Message, Photo Message, Video Message, Audio Message, Document Message, Contact Message, and  Location Message
 
 
-Text Message: A message which includes only a text
-
-Photo Message: Includes a Photo and its caption.
-
-Video Message: Includes a Video and its caption.
-
-Audio Message: Includes an Audio and its caption
-
-Document Message: Includes any files that does not included in past messages
-
-Contact Message: Includes details of the contact
-
-Location Message: Includes Latitude and Longitude of the location
+- Text Message: A message which includes only a text
+- Photo Message: Includes a Photo and its caption.
+- Video Message: Includes a Video and its caption.
+- Audio Message: Includes an Audio and its caption
+- Document Message: Includes any files that does not included in past messages
+- Contact Message: Includes details of the contact
+- Location Message: Includes Latitude and Longitude of the location
 
 Output of the Receiver node changes based on the message type.
 
@@ -95,11 +89,8 @@ Output of the Receiver node changes based on the message type.
 The Receiver output includes these parameters when a text message is sent to the bot:
 ```
 payload.user_id ="user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "text"
-
 payload.content = "text message data"
 ```
 As can be seen the output has three main sections: user_id and accessHash of the user, message type, and message content
@@ -109,27 +100,16 @@ As can be seen the output has three main sections: user_id and accessHash of the
 The Receiver output includes these parameters when a photo message is sent to the bot:
 ```
 payload.user_id = "user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "photo"
-
 payload.content.caption = "caption of the photo"
-
 payload.content.file_id = "file_id of the photo"
-
 payload.content.file_hash = "accessHash of the photo"
-
 payload.content.file_name = "name of the file"
-
 payload.content.file_size = "size of the file"
-
 payload.content.thumb = "thumbnail of the photo"
-
 payload.content.width = "width of the photo"
-
 payload.content.height = "height of the photo"
-
 payload.content.mimeType = "mime type of the photo"
 ```
 ### Video Message
@@ -137,29 +117,17 @@ payload.content.mimeType = "mime type of the photo"
 The Receiver output includes these parameters when a video message is sent to the bot:
 ```
 payload.user_id = "user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "video"
-
 payload.content.caption = "caption of the video"
-
 payload.content.file_id = "file_id of the video"
-
 payload.content.file_hash = "accessHash of the video"
-
 payload.content.file_name = "name of the file"
-
 payload.content.file_size = "size of the file"
-
 payload.content.thumb = "thumbnail of the video"
-
 payload.content.width = "width of the video"
-
 payload.content.height = "height of the video"
-
 payload.content.mimeType = "mime type of the video"
-
 payload.content.ducation = "length of the video in seconds"
 ```
 ### Audio Message
@@ -167,23 +135,14 @@ payload.content.ducation = "length of the video in seconds"
 The Receiver output includes these parameters when a audio message is sent to the bot:
 ```
 payload.user_id = "user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "audio"
-
 payload.content.caption = "caption of the audio"
-
 payload.content.file_id = "file_id of the audio"
-
 payload.content.file_hash = "accessHash of the audio"
-
 payload.content.file_name = "name of the file"
-
 payload.content.file_size = "size of the file"
-
 payload.content.mimeType = "mime type of the audio"
-
 payload.content.ducation = "length of the video in seconds"
 ```
 
@@ -192,23 +151,14 @@ The Receiver output includes these parameters when a document message is sent to
 
 ```
 payload.user_id = "user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "document"
-
 payload.content.caption = "caption of the file"
-
 payload.content.file_id = "file_id of the file"
-
 payload.content.file_hash = "accessHash of the file"
-
 payload.content.file_name = "name of the file"
-
 payload.content.file_size = "size of the file"
-
 payload.content.mimeType = "mime type of the file"
-
 ```
 
 ### Contact Message
@@ -216,15 +166,10 @@ payload.content.mimeType = "mime type of the file"
 The Receiver output includes these parameters when a contact message is sent to the bot:
 ```
 payload.user_id = "user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "contact"
-
 payload.content.name = "name of the person"
-
 payload.content.emails = "list of emails"
-
 payload.content.phones = "list of phones"
 ```
 
@@ -233,13 +178,9 @@ payload.content.phones = "list of phones"
 The Receiver output includes these parameters when a location message is sent to the bot:
 ```
 payload.user_id = "user_id of the client"
-
 payload.accessHash = "accessHash of the client"
-
 payload.type = "location"
-
 payload.content.latitude = "latitude of the location"
-
 payload.content.longitude = "longitude of the location"
 ```
 
@@ -301,9 +242,7 @@ Image below shows the general usage of all the nodes.
 Start a Terminal and run these commends
 ```
 sudo apt-get install nodejs-legacy
-
 sudo apt-get install npm
-
 sudo npm install -g --unsafe-perm node-red
 ```
 
@@ -344,7 +283,6 @@ WantedBy=multi-user.target
 After saving the file follow these steps:
 ```
 sudo systemctl enable node-red
-
 sudo systemctl start node-red
 ```
 
@@ -358,7 +296,6 @@ sudo systemctl stop node-red
 In order to install Bale Red start a Terminal and run these commands:
 ```
 cd ~/.node-red
-
 npm install node-red-contrib-balered
 ```
 After installing Bale Red restart node-red so new nodes be loaded. 
@@ -371,9 +308,7 @@ Download and install node.js version LTS from [https://nodejs.org/en/](https://n
 After installing node.js start a command windows and run these commands: 
 ```
 npm install --global --production windows-build-tools
-
 npm install --global --production --add-python-to-path windows-build-tools
-
 npm install -g --unsafe-perm node-red
 ```
 
