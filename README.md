@@ -32,7 +32,7 @@ Tasks for future:
 Bale Red a series of Node-red nodes which helps to make bots in Bale Messenger platform. With these nodes you don't need to use bale SDK to make Bot. 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/49871800-6d442a00-fe2c-11e8-9054-6c9fc0c52909.png"  title="Bale Red Nodes">
+  <img src="https://user-images.githubusercontent.com/37385157/50537728-f1aae280-0b78-11e9-940c-fbe544193c58.png"  title="Bale Red Nodes">
 </p>
 
 
@@ -43,12 +43,12 @@ to upload and download files to/from Bale servers, respectively.
 
 As am example in order to make an Echo bot, you just need to connect Receiver and Sender nodes to each other.
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/49871831-88169e80-fe2c-11e8-992f-ab4cd3f56b6c.png"  title="Echo">
+  <img src="https://user-images.githubusercontent.com/37385157/50537756-43ec0380-0b79-11e9-9d26-44f75df4c790.png"  title="Echo">
 </p>
 
 As another example, in order to download all files sent to your bot you can connect a Downloader node to Receiver node.
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/49871955-d9bf2900-fe2c-11e8-85c4-4b19d0a995f1.png"  title="Download all files">
+  <img src="https://user-images.githubusercontent.com/37385157/50537765-6aaa3a00-0b79-11e9-8f91-5ef495fe312c.png"  title="Download all files">
 </p>
 
 
@@ -91,7 +91,7 @@ The Receiver output includes these parameters when a text message is sent to the
 payload.user_id ="user_id of the client"
 payload.accessHash = "accessHash of the client"
 payload.type = "text"
-payload.content = "text message data"
+payload.content.caption = "text message data"
 ```
 As can be seen the output has three main sections: user_id and accessHash of the user, message type, and message content
 
@@ -226,7 +226,7 @@ In order to give file address to the node it can be given by a function node.
   <img src="https://user-images.githubusercontent.com/37385157/49873245-aaaab680-fe30-11e8-82d2-4940fcd2ef46.png"  title="show data location">
 </p>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/49873322-d29a1a00-fe30-11e8-9ca6-aaca81faf9f3.png"  title="nodes to send a file">
+  <img src="https://user-images.githubusercontent.com/37385157/50537774-a2b17d00-0b79-11e9-8fb9-29b14afa8c97.png"  title="nodes to send a file">
 </p>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/37385157/49873406-02492200-fe31-11e8-86a5-fd82d8fb7208.png"  title="sent user data">
