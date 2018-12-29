@@ -226,7 +226,8 @@ module.exports = function (RED) {
 
                     if (message instanceof TextMessage) {
                         msg.payload.type = "text";
-                        msg.payload.content = message.text;
+                        msg.payload.content = {};
+                        msg.payload.content.caption = message.text;
                     }
                     else if (message instanceof PhotoMessage) {
                         msg.payload.type = "photo";
@@ -360,7 +361,7 @@ module.exports = function (RED) {
                             user_peer = new Group(user_id, accessHash);}
                         else{
                             user_peer = new User(user_id, accessHash);
-                            }
+                        }
                         var type = msg.payload.type;
                         node.status({fill: "green", shape: "dot", text: "sending message"});
                         setTimeout(myFunc, 500);
