@@ -1,6 +1,6 @@
 const Platform = require("balebot_plus/index");
 const PurchaseMessage = Platform.PurchaseMessage;
-const PhotoMessageJson = require("../models/photo_message");
+const PhotoMessageJson = require("./photo_message");
 const MoneyRequestType=Platform.MoneyRequestType;
 
 module.exports = {
