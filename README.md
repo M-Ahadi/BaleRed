@@ -20,9 +20,9 @@ Tasks for future:
 
 - [X] Add node for money request
 
-- [ ] Add node for template message
+- [X] Add node for template message
 
-- [ ] Make it compatible to mix buttons with photos
+- [X] Make it compatible to mix buttons with photos
 
 
 
@@ -182,6 +182,14 @@ payload.accessHash = "accessHash of the client"
 payload.type = "location"
 payload.content.latitude = "latitude of the location"
 payload.content.longitude = "longitude of the location"
+```
+
+### Template Respond Message
+```
+payload.user_id ="user_id of the client"
+payload.accessHash = "accessHash of the client"
+payload.type = "text"
+payload.content.caption = "value of the pressed button"
 ```
 
 It is necessary to know these parameters if you need to store and use the data later.
