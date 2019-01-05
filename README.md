@@ -217,7 +217,7 @@ chosen in the node's config.
 In order to use the Uploader node, it is necessary to send the file location in local directory. After this node 
 it is necessary to add user's data (user_id and accessHash). 
 ```
-msg.payload.file_address = "the file address in my PC"
+msg.payload.filename = "the file address in my PC"
 ```
 
 In order to give file address to the node it can be given by a function node.
@@ -313,7 +313,7 @@ After installing Bale Red restart node-red so new nodes be loaded.
 ### Install Node-Red
 
 Download and install node.js version LTS from [https://nodejs.org/en/](https://nodejs.org/en/)
-After installing node.js start a command windows and run these commands: 
+After installing node.js start a power shell and run these commands: 
 ```
 npm install --global --production windows-build-tools
 npm install --global --production --add-python-to-path windows-build-tools
