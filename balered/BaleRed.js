@@ -720,15 +720,15 @@ module.exports = function (RED) {
 
         this.on('input', function (msg) {
             if (msg.payload) {
-                if (msg.payload.file_address) {
+                if (msg.payload.filename) {
 
 
-                    fs.readFile(msg.payload.file_address, function (err, imageBuffer) {
+                    fs.readFile(msg.payload.filename, function (err, imageBuffer) {
                         node.baleBot.UploadFile(imageBuffer, 'file').then(response => {
 
-                            var stats = fs.statSync(msg.payload.file_address);
+                            var stats = fs.statSync(msg.payload.filename);
                             var fileSizeInBytes = stats.size;
-                            let mime_type = mime.getType(msg.payload.file_address);
+                            let mime_type = mime.getType(msg.payload.filename);
                             let fileId = response.fileId;
                             let fileAccessHash = response.accessHash;
                             new_msg = {
@@ -739,7 +739,7 @@ module.exports = function (RED) {
                                         file_hash: fileAccessHash,
                                         mimeType: mime_type,
                                         file_size: fileSizeInBytes,
-                                        file_name: path.basename(msg.payload.file_address),
+                                        file_name: path.basename(msg.payload.filename),
                                         caption: ""
                                     }
                                 }
@@ -751,18 +751,17 @@ module.exports = function (RED) {
                             if (mime_type.indexOf("video") > -1) {
                                 new_msg.payload.type = "video";
 
-                                ffmpeg.ffprobe(msg.payload.file_address, function (err, metadata) {
-                                    // console.dir(metadata.streams[1]); // all metadata
+                                ffmpeg.ffprobe(msg.payload.filename, function (err, metadata) {
                                     new_msg.payload.content.duration = metadata.format.duration;
                                     new_msg.payload.content.width = metadata.streams[1].width;
                                     new_msg.payload.content.height = metadata.streams[1].height;
 
                                 });
 
-                                var temp_path = msg.payload.file_address.replace(path.basename(msg.payload.file_address), "");
+                                var temp_path = msg.payload.filename.replace(path.basename(msg.payload.filename), "");
                                 var temp_file_name = random_file_name() + ".png";
 
-                                ffmpeg(msg.payload.file_address)
+                                ffmpeg(msg.payload.filename)
                                     .on('filenames', function (filenames) {
 
                                     })
@@ -807,7 +806,7 @@ module.exports = function (RED) {
 
                             } else if (mime_type.indexOf("audio") > -1) {
                                 new_msg.payload.type = "audio";
-                                audio_metadata.parseFile(msg.payload.file_address, {native: true})
+                                audio_metadata.parseFile(msg.payload.filename, {native: true})
                                     .then(metadata => {
                                         // console.log(metadata.format.duration);
                                         new_msg.payload.content.duration = metadata.format.duration;
@@ -827,7 +826,7 @@ module.exports = function (RED) {
                     });
 
                 } else {
-                    node.warn("msg.payload.file_address is empty");
+                    node.warn("msg.payload.filename is empty");
                 }
             } else {
                 node.warn("msg.payload is empty");
