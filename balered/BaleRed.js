@@ -2,10 +2,6 @@
  * Created by Mojtaba Ahadi
  **/
 //todo handle bale cannot connect to the server and show proper status
-//todo add purchase handler
-//todo add module for money request
-//todo add module for template message
-//todo make it compatible to mix buttons with photos
 
 module.exports = function (RED) {
     const PhotoMessageJson = require("./models/photo_message");
