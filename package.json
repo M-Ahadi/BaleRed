@@ -3,9 +3,6 @@
   "version": "1.2.4",
   "description": "BaleRed is a NodeRed node which helps you to make bale bot without coding",
   "homepage": "https://github.com/M-Ahadi/BaleRed#readme",
-  "scripts": {
-    "test": "test"
-  },
   "keywords": [
     "bale",
     "balered",
