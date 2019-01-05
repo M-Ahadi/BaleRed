@@ -10,7 +10,8 @@
     "bale",
     "balered",
     "bale red",
-    "node-red"
+    "node-red",
+    "بله"
   ],
   "dependencies": {
     "balebot_plus": "^2.1.11",
