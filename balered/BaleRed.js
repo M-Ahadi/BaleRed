@@ -389,7 +389,7 @@ module.exports = function (RED) {
                                             done = true;
                                         }
                                         let effective_msg = new TextMessage(messageToSend);
-                                        node.baleBot.send(effective_msg, user_peer).then(function (sent) {
+                                        node.baleBot.send(effective_msg, user_peer).then(function () {
                                             msg.payload.effective_msg = effective_msg;
                                             node.send(msg);
                                         }).catch(function (err) {
@@ -398,7 +398,7 @@ module.exports = function (RED) {
                                                 String(err).includes("can't parse entities in message text:")
                                             ) {
 
-                                                node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                                node.baleBot.send(effective_msg, user_peer).then(() =>{
                                                     msg.payload.effective_msg = effective_msg;
                                                     node.send(msg);
                                                 }).catch((err) => {
@@ -415,7 +415,7 @@ module.exports = function (RED) {
                             case 'photo':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = PhotoMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -427,7 +427,7 @@ module.exports = function (RED) {
 
                                 if (this.hasContent(msg)) {
                                     let effective_msg = AudioMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -438,7 +438,7 @@ module.exports = function (RED) {
                             case 'document':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = DocumentMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -449,7 +449,7 @@ module.exports = function (RED) {
                             case 'video':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = VideoMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -461,7 +461,7 @@ module.exports = function (RED) {
                             case "location":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = LocationMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -473,7 +473,7 @@ module.exports = function (RED) {
                             case "contact":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = ContactMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -484,7 +484,7 @@ module.exports = function (RED) {
                             case "money":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = PurchaseMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -495,7 +495,7 @@ module.exports = function (RED) {
                             case "button":
                                 if (this.hasContent(msg)){
                                     let effective_msg = TemplateMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
