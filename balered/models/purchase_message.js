@@ -28,6 +28,6 @@ module.exports = {
         let photo = PhotoMessageJson.load_json(msg);
         let card_number = msg.payload.content.card_number;
         let amount = msg.payload.content.amount;
-        return new PurchaseMessage(photo, card_number, amount, new MoneyRequestType().normal);
+        return new PurchaseMessage(photo, card_number.toString(), amount.toString(), new MoneyRequestType().normal);
     }
 };
