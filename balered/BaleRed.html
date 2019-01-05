@@ -209,12 +209,13 @@
 
 <script type="text/x-red" data-help-name="bale downloader">
     <p>A bale node that downloads files.
-    <p><code>msg.payload</code> typically contains the parsed data as follows:</p>
+    <p><code>msg.payload</code> should contain the parsed data as follows:</p>
     <ul>
     <li><code>file_id</code> the file_id of the file</li>
     <li><code>file_hash</code> the file_hash string</li>
     <li><code>file_name</code> name of the file</li>
     </ul>
+    <p> The output contains <code>msg.payload.filename</code> which shows location of the file is stored.
 
 
 </script>
@@ -260,7 +261,7 @@
 
 <script type="text/x-red" data-help-name="bale uploader">
     <p>A bale node that uploads files.
-    <p><code>msg.payload.file_address</code> typically contains the file address to upload</p>
+    <p><code>msg.payload.filename</code> typically contains the file address to upload</p>
     <p>The output contains msg.payload.content</p>
     <p><code>content</code> typically contains the parsed data as follows:</p>
     <ul>
@@ -532,16 +533,7 @@
             var result = RED.utils.parseContextKey(key);
             return result.key;
         }
-        function getValueLabel(t,v) {
-            if (t === 'str') {
-                return '"'+clipValueLength(v)+'"';
-            } else if (t === 'msg') {
-                return t+"."+clipValueLength(v);
-            } else if (t === 'flow' || t === 'global') {
-                return t+"."+clipValueLength(prop2name(v));
-            }
-            return clipValueLength(v);
-        }
+
         RED.nodes.registerType('bale button', {
             color: '#88ddd9',
             category: 'BaleRed',
@@ -652,17 +644,15 @@
                 var rules = $("#node-input-rule-container").editableList('items');
                 var node = this;
                 node.rules = [];
-                rules.each(function(i) {
+                rules.each(function() {
                     var rule = $(this);
                     var r = {};
-                    //if (!(type === "true" || type === "false" || type === "null" || type === "nnull" || type === "empty" || type === "nempty" || type === "else")) {
                     r.button_name = rule.find(".node-input-rule-button1").val();
                     r.button_value = rule.find(".node-input-rule-button2").val();
                     r.button_action = rule.find(".node-input-rule-value").val();
                     //}
                     node.rules.push(r);
                 });
-                //this.propertyType = $("#node-input-property").typedInput('type');
             },
             oneditresize: function(size) {
                 var rows = $("#dialog-form>div:not(.node-input-rule-container-row)");
