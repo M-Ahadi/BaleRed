@@ -394,7 +394,7 @@ module.exports = function (RED) {
                                         }
                                         let effective_msg = new TextMessage(messageToSend);
                                         node.baleBot.send(effective_msg, user_peer).then(function (sent) {
-                                            msg.payload.effective_msg = sent.effective_msg;
+                                            msg.payload.effective_msg = effective_msg;
                                             node.send(msg);
                                         }).catch(function (err) {
                                             // markdown error? try plain mode
@@ -402,9 +402,11 @@ module.exports = function (RED) {
                                                 String(err).includes("can't parse entities in message text:")
                                             ) {
 
-                                                node.baleBot.send(effective_msg, user_peer).then(function (sent) {
-                                                    msg.payload.effective_msg = sent.effective_msg;
+                                                node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                                    msg.payload.effective_msg = effective_msg;
                                                     node.send(msg);
+                                                }).catch((err) => {
+                                                    node.send(err)
                                                 });
                                                 return;
                                             }
@@ -417,9 +419,11 @@ module.exports = function (RED) {
                             case 'photo':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = PhotoMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function (sent) {
-                                        msg.payload.effective_msg = sent.effective_msg;
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
@@ -427,24 +431,33 @@ module.exports = function (RED) {
 
                                 if (this.hasContent(msg)) {
                                     let effective_msg = AudioMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
                             case 'document':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = DocumentMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
                             case 'video':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = VideoMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
@@ -452,8 +465,11 @@ module.exports = function (RED) {
                             case "location":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = LocationMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
@@ -461,24 +477,33 @@ module.exports = function (RED) {
                             case "contact":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = ContactMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
                             case "money":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = PurchaseMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
                             case "button":
                                 if (this.hasContent(msg)){
                                     let effective_msg = TemplateMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(function () {
+                                    node.baleBot.send(effective_msg, user_peer).then((sent) =>{
+                                        msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
+                                    }).catch((err) => {
+                                        node.send(err)
                                     });
                                 }
                                 break;
@@ -575,7 +600,7 @@ module.exports = function (RED) {
                                                 node.warn(err);
                                             }
 
-                                            node.send({payload: "File downloaded successfully.\n" + file_name});
+                                            node.send({payload: "File downloaded successfully.","filename": file_name, "effective_msg":msg.payload.effective_msg});
                                         });
                                     }).catch((err) => {
                                         node.warn(err);
