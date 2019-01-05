@@ -22,7 +22,6 @@ module.exports = function (RED) {
     const VideoMessage = Platform.VideoMessage;
     const AudioMessage = Platform.AudioMessage;
     const ReceiptMessage = Platform.ReceiptMessage;
-    const TemplateMessage = Platform.TemplateMessage;
     const FileMessage = Platform.FileMessage;
     const LocationMessage = Platform.LocationMessage;
     const ContactMessage = Platform.ContactMessage;
