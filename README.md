@@ -223,7 +223,7 @@ msg.payload.filename = "the file address in my PC"
 In order to give file address to the node it can be given by a function node.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/49873245-aaaab680-fe30-11e8-82d2-4940fcd2ef46.png"  title="show data location">
+  <img src="https://user-images.githubusercontent.com/37385157/50720947-64154880-10cc-11e9-9945-d24592903f9d.png"  title="show data location">
 </p>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/37385157/50537774-a2b17d00-0b79-11e9-8fb9-29b14afa8c97.png"  title="nodes to send a file">
