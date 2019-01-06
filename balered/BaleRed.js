@@ -11,7 +11,7 @@ module.exports = function (RED) {
     const LocationMessageJson = require("./models/location_message");
     const ContactMessageJson = require("./models/contact_message");
     const PurchaseMessageJson = require("./models/purchase_message");
-    const TemplateMessageJson =  require("./models/template_message");
+    const TemplateMessageJson = require("./models/template_message");
 
     const Platform = require("balebot_plus/index");
     const Bot = Platform.BaleBot;
@@ -98,19 +98,18 @@ module.exports = function (RED) {
         };
 
 
-
         this.on('close', function (done) {
             self.abortBot(done);
         });
 
         this.abortBot = function (done) {
             // if (self.baleBot._apiConnection._serverConnection._socketConnection._isOnline) {
-                self.baleBot._apiConnection._serverConnection._socketConnection._reconnectingWebSocket.close().then(function () {
-                    self.baleBot = null;
-                    self.status = "disconnected";
-                    self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. "});
-                    done();
-                })
+            self.baleBot._apiConnection._serverConnection._socketConnection._reconnectingWebSocket.close().then(function () {
+                self.baleBot = null;
+                self.status = "disconnected";
+                self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. "});
+                done();
+            })
             // }
             // else {
             //     self.status = "disconnected";
@@ -215,8 +214,8 @@ module.exports = function (RED) {
                 node.baleBot.setDefaultCallback((message, responder) => {
                     var msg = {payload: {}};
                     // console.log(message);
-                    msg.payload.user_id = responder._peer._id;
-                    msg.payload.accessHash = responder._peer._accessHash;
+                    msg.payload.user_id = responder._peer._id.toString();
+                    msg.payload.accessHash = responder._peer._accessHash.toString();
                     msg.payload.$type = responder._peer.$type;
                     msg.payload.effective_msg = message;
 
@@ -257,9 +256,9 @@ module.exports = function (RED) {
                         msg.payload.type = "receipt";
                         msg.payload.content = PurchaseMessageJson.get_json(message);
                     }
-                    else if (message instanceof  TemplateResponseMessage){
+                    else if (message instanceof TemplateResponseMessage) {
                         msg.payload.type = "text";
-                        msg.payload.content  = TemplateMessageJson.get_json(message);
+                        msg.payload.content = TemplateMessageJson.get_json(message);
                     }
                     if (msg.payload.$type === "Group") {
                         node.send([null, null, msg]);
@@ -353,8 +352,8 @@ module.exports = function (RED) {
                 if (msg.payload.user_id) {
                     if (msg.payload.type) {
 
-                        var user_id = msg.payload.user_id;
-                        var accessHash = msg.payload.accessHash;
+                        var user_id = msg.payload.user_id.toString();
+                        var accessHash = msg.payload.accessHash.toString();
                         var user_peer;
                         if (msg.payload.$type === "Group") {
                             user_peer = new Group(user_id, accessHash);
@@ -397,7 +396,7 @@ module.exports = function (RED) {
                                                 String(err).includes("can't parse entities in message text:")
                                             ) {
 
-                                                node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                                node.baleBot.send(effective_msg, user_peer).then(() => {
                                                     msg.payload.effective_msg = effective_msg;
                                                     node.send(msg);
                                                 }).catch((err) => {
@@ -414,7 +413,7 @@ module.exports = function (RED) {
                             case 'photo':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = PhotoMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -426,7 +425,7 @@ module.exports = function (RED) {
 
                                 if (this.hasContent(msg)) {
                                     let effective_msg = AudioMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -437,7 +436,7 @@ module.exports = function (RED) {
                             case 'document':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = DocumentMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -448,7 +447,7 @@ module.exports = function (RED) {
                             case 'video':
                                 if (this.hasContent(msg)) {
                                     let effective_msg = VideoMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -460,7 +459,7 @@ module.exports = function (RED) {
                             case "location":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = LocationMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -472,7 +471,7 @@ module.exports = function (RED) {
                             case "contact":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = ContactMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -483,7 +482,7 @@ module.exports = function (RED) {
                             case "money":
                                 if (this.hasContent(msg)) {
                                     let effective_msg = PurchaseMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -492,9 +491,9 @@ module.exports = function (RED) {
                                 }
                                 break;
                             case "button":
-                                if (this.hasContent(msg)){
+                                if (this.hasContent(msg)) {
                                     let effective_msg = TemplateMessageJson.load_json(msg);
-                                    node.baleBot.send(effective_msg, user_peer).then(() =>{
+                                    node.baleBot.send(effective_msg, user_peer).then(() => {
                                         msg.payload.effective_msg = effective_msg;
                                         node.send(msg);
                                     }).catch((err) => {
@@ -595,7 +594,11 @@ module.exports = function (RED) {
                                                 node.warn(err);
                                             }
 
-                                            node.send({payload: "File downloaded successfully.","filename": file_name, "effective_msg":msg.payload.effective_msg});
+                                            node.send({
+                                                payload: "File downloaded successfully.",
+                                                "filename": file_name,
+                                                "effective_msg": msg.payload.effective_msg
+                                            });
                                         });
                                     }).catch((err) => {
                                         node.warn(err);
@@ -653,34 +656,31 @@ module.exports = function (RED) {
             this.status({fill: "red", shape: "ring", text: "config node failed to initialize."});
         }
 
-        var cardNumber = config.cardNumber;
+        var cardNumber = config.cardNumber.toString();
         var amount = config.Amount;
 
         this.on('input', function (msg) {
 
-            if (msg.payload.type === "photo") {
-                msg.payload.type = "money";
-                if (msg.payload.content.card_number) {
-                    cardNumber = msg.payload.content.card_number;
-                }
-                if (msg.payload.content.amount) {
-                    amount = msg.payload.content.amount;
-                }
+            msg.payload.type = "money";
+            if (msg.payload.content.card_number) {
+                cardNumber = msg.payload.content.card_number.toString();
+            }
+            if (msg.payload.content.amount) {
+                amount = msg.payload.content.amount;
+            }
 
-                if (!cardNumber) {
-                    node.warn("card number is unknown");
-                }
+            if (!cardNumber) {
+                node.warn("card number is unknown");
+            } else {
                 if (!amount) {
-                    amount = 0
+                    amount = "0"
                 }
-                if (cardNumber && amount !== null) {
+                if (cardNumber) {
                     msg.payload.content.amount = amount;
                     msg.payload.content.card_number = cardNumber;
 
                     node.send(msg)
                 }
-            } else {
-                node.warn("You have to give a uploaded photo as input")
             }
 
         });
@@ -716,8 +716,8 @@ module.exports = function (RED) {
         this.on('input', function (msg) {
             if (msg.payload) {
                 if (msg.payload.filename) {
-
-
+                    let user_id = msg.payload.user_id;
+                    let accessHash = msg.payload.accessHash;
                     fs.readFile(msg.payload.filename, function (err, imageBuffer) {
                         node.baleBot.UploadFile(imageBuffer, 'file').then(response => {
 
@@ -726,8 +726,10 @@ module.exports = function (RED) {
                             let mime_type = mime.getType(msg.payload.filename);
                             let fileId = response.fileId;
                             let fileAccessHash = response.accessHash;
-                            new_msg = {
+                            var new_msg = {
                                 payload: {
+                                    user_id: user_id,
+                                    accessHash: accessHash,
                                     type: "",
                                     content: {
                                         file_id: fileId,
@@ -871,11 +873,11 @@ module.exports = function (RED) {
 
         this.on('input', function (msg) {
             if (msg.payload) {
-                    msg.payload.type = "button";
-                    msg.payload.content.buttons = this.buttons;
-                    node.send(msg)
+                msg.payload.type = "button";
+                msg.payload.content.buttons = this.buttons;
+                node.send(msg)
 
-            }else {
+            } else {
                 node.warn("msg.payload is empty");
             }
 
