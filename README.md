@@ -12,19 +12,6 @@ With the Receiver and Sender nodes you can receive and send these types of messa
 The Downloader node helps you to download Photo, Video and Document messages in your local system.
 
 The Uploader node helps you to upload any file in your local system to bale servers and send it to any user you want.
-  
-
-Tasks for future:
-
-- [X] Add purchase handler
-
-- [X] Add node for money request
-
-- [X] Add node for template message
-
-- [X] Make it compatible to mix buttons with photos
-
-
 
 
 # What is Bale Red
@@ -32,7 +19,7 @@ Tasks for future:
 Bale Red a series of Node-red nodes which helps to make bots in Bale Messenger platform. With these nodes you don't need to use bale SDK to make Bot. 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/50537728-f1aae280-0b78-11e9-940c-fbe544193c58.png"  title="Bale Red Nodes">
+  <img src="https://user-images.githubusercontent.com/37385157/50760366-dcbb0700-127c-11e9-8eb8-4335c7835bf7.png"  title="Bale Red Nodes">
 </p>
 
 
@@ -192,6 +179,7 @@ payload.type = "text"
 payload.content.caption = "value of the pressed button"
 ```
 
+
 It is necessary to know these parameters if you need to store and use the data later.
 
 ### Receiver Node Outputs
@@ -219,6 +207,14 @@ it is necessary to add user's data (user_id and accessHash).
 ```
 msg.payload.filename = "the file address in my PC"
 ```
+
+### Text Message Node
+In order to add text to a message this node can be used
+
+
+### Money Message Node
+To send a money request this node can be used.
+
 
 In order to give file address to the node it can be given by a function node.
 
@@ -313,7 +309,7 @@ After installing Bale Red restart node-red so new nodes be loaded.
 ### Install Node-Red
 
 Download and install node.js version LTS from [https://nodejs.org/en/](https://nodejs.org/en/)
-After installing node.js start a power shell and run these commands: 
+After installing node.js start a powerShell and run these commands: 
 ```
 npm install --global --production windows-build-tools
 npm install --global --production --add-python-to-path windows-build-tools
