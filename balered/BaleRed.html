@@ -285,14 +285,12 @@
         color: '#88ddd9',
         defaults: {
             name: {value: ""},
-            bot: {value: "", type: "bale bot", required: true},
             cardNumber: {value: ""},
             Amount: {value: 0}
         },
         inputs: 1,
         outputs: 1,
         icon: "bale.png",
-        inputLabels: ["Photo Message"],
         outputLabels: ["Money Message"],
         paletteLabel: "money",
         label: function () {
@@ -306,9 +304,10 @@
 
 <script type="text/x-red" data-template-name="bale money">
     <div class="form-row">
-        <label for="node-input-bot"><i class="fa fa-bale"></i> Bot</label>
-        <input type="text" id="node-input-bot" placeholder="Bot">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
     <div class="form-row">
         <label for="node-input-cardNumber"><i class="fa fa-hdd-o"></i>Card Number</label>
         <input type="text" id="node-input-cardNumber" placeholder="Card Number">
@@ -523,17 +522,6 @@
             {v:28,t:"file"}
 
         ];
-        function clipValueLength(v) {
-            if (v.length > 15) {
-                return v.substring(0,15)+"...";
-            }
-            return v;
-        }
-        function prop2name(key) {
-            var result = RED.utils.parseContextKey(key);
-            return result.key;
-        }
-
         RED.nodes.registerType('bale button', {
             color: '#88ddd9',
             category: 'BaleRed',
