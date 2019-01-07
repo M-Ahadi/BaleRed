@@ -831,38 +831,6 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
         this.buttons = config.rules || [];
-        //
-        // this.config = RED.nodes.getNode(this.bot);
-        // if (this.config) {
-        //     this.config.register(node);
-        //
-        //     this.status({fill: "red", shape: "ring", text: "disconnected"});
-        //
-        //     node.baleBot = this.config.getBaleBot();
-        //     if (node.baleBot) {
-        //         this.status({fill: "green", shape: "ring", text: "connected"});
-        //     } else {
-        //         node.warn("bot not initialized.");
-        //         this.status({fill: "red", shape: "ring", text: "bot not initialized"});
-        //     }
-        // } else {
-        //     node.warn("config node failed to initialize.");
-        //     this.status({fill: "red", shape: "ring", text: "config node failed to initialize."});
-        // }
-        //
-        // this.hasContent = function (msg) {
-        //     var hasContent;
-        //     if (msg.payload.content) {
-        //         hasContent = true;
-        //     }
-        //     else {
-        //         node.warn("msg.payload.content is empty");
-        //         hasContent = false;
-        //     }
-        //
-        //     return hasContent;
-        // };
-
         this.on('input', function (msg) {
             if (msg.payload) {
                 msg.payload.type = "button";
