@@ -553,6 +553,9 @@ module.exports = function (RED) {
         }
 
         var saveDataDir = config.saveDataDir;
+        if (!saveDataDir) {
+            saveDataDir = "./"
+        }
 
         this.on('input', function (msg) {
             if (msg.payload.blob) {
