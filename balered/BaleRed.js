@@ -217,7 +217,7 @@ module.exports = function (RED) {
                     msg.payload.user_id = responder._peer._id.toString();
                     msg.payload.accessHash = responder._peer._accessHash.toString();
                     msg.payload.$type = responder._peer.$type;
-                    msg.payload.effective_msg = message;
+                    msg.effective_msg = message;
 
                     if (message instanceof TextMessage) {
                         msg.payload.type = "text";
