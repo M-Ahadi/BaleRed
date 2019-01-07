@@ -108,13 +108,13 @@ module.exports = function (RED) {
                 self.baleBot = null;
                 self.status = "disconnected";
                 self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. "});
-                done();
-            })
+            }).catch((err) => {
+                node.send(err)
+            });
             // }
             // else {
             //     self.status = "disconnected";
             //     self.setNodesStatus({fill: "red", shape: "ring", text: "bot stopped. "});
-            //     done();
             // }
         };
 
@@ -719,7 +719,7 @@ module.exports = function (RED) {
                     let user_id = msg.payload.user_id;
                     let accessHash = msg.payload.accessHash;
                     fs.readFile(msg.payload.filename, function (err, imageBuffer) {
-                        node.baleBot.UploadFile(imageBuffer, 'file').then(response => {
+                            node.baleBot.UploadFile(imageBuffer, 'file').then(response => {
 
                             var stats = fs.statSync(msg.payload.filename);
                             var fileSizeInBytes = stats.size;
@@ -743,7 +743,7 @@ module.exports = function (RED) {
                             };
 
 
-                            var thumbBuffer = null;
+                                var thumbBuffer = null;
 
                             if (mime_type.indexOf("video") > -1) {
                                 new_msg.payload.type = "video";
@@ -753,13 +753,13 @@ module.exports = function (RED) {
                                     new_msg.payload.content.width = metadata.streams[1].width;
                                     new_msg.payload.content.height = metadata.streams[1].height;
 
-                                });
+                                    });
 
-                                var temp_path = msg.payload.filename.replace(path.basename(msg.payload.filename), "");
-                                var temp_file_name = random_file_name() + ".png";
+                                    var temp_path = msg.payload.filename.replace(path.basename(msg.payload.filename), "");
+                                    var temp_file_name = random_file_name() + ".png";
 
-                                ffmpeg(msg.payload.filename)
-                                    .on('filenames', function (filenames) {
+                                    ffmpeg(msg.payload.filename)
+                                        .on('filenames', function (filenames) {
 
                                     })
                                     .on('end', function () {
@@ -770,14 +770,14 @@ module.exports = function (RED) {
                                             fs.unlinkSync(temp_path + temp_file_name)
                                         })
 
-                                    })
-                                    .screenshots({
-                                        // Will take screens at 20%, 40%, 60% and 80% of the video
-                                        timestamps: ['50%'],
-                                        filename: temp_file_name,
-                                        count: 1,
-                                        folder: temp_path
-                                    });
+                                        })
+                                        .screenshots({
+                                            // Will take screens at 20%, 40%, 60% and 80% of the video
+                                            timestamps: ['50%'],
+                                            filename: temp_file_name,
+                                            count: 1,
+                                            folder: temp_path
+                                        });
 
 
                             } else if (mime_type.indexOf("image") > -1) {
