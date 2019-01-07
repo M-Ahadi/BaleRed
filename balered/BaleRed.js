@@ -629,70 +629,6 @@ module.exports = function (RED) {
     RED.nodes.registerType("bale downloader", baledownloader);
 
 
-    // --------------------------------------------------------------------------------------------
-    // The output node sends to the chat and passes the msg through.
-    // The payload needs two fields
-    // file_id    : file_id of the file
-    // file_hash : file_hash of the file
-    // file_name : name of the file, if it is empty, a random name will be generated
-
-    function balemoney(config) {
-        RED.nodes.createNode(this, config);
-        var node = this;
-        this.bot = config.bot;
-
-        this.config = RED.nodes.getNode(this.bot);
-        if (this.config) {
-            this.config.register(node);
-
-            this.status({fill: "red", shape: "ring", text: "disconnected"});
-
-            node.baleBot = this.config.getBaleBot();
-            if (node.baleBot) {
-                this.status({fill: "green", shape: "ring", text: "connected"});
-            } else {
-                node.warn("bot not initialized.");
-                this.status({fill: "red", shape: "ring", text: "bot not initialized"});
-            }
-        } else {
-            node.warn("config node failed to initialize.");
-            this.status({fill: "red", shape: "ring", text: "config node failed to initialize."});
-        }
-
-        var cardNumber = config.cardNumber.toString();
-        var amount = config.Amount;
-
-        this.on('input', function (msg) {
-
-            msg.payload.type = "money";
-            if (msg.payload.content.card_number) {
-                cardNumber = msg.payload.content.card_number.toString();
-            }
-            if (msg.payload.content.amount) {
-                amount = msg.payload.content.amount;
-            }
-
-            if (!cardNumber) {
-                node.warn("card number is unknown");
-            } else {
-                if (!amount) {
-                    amount = "0"
-                }
-                if (cardNumber) {
-                    msg.payload.content.amount = amount;
-                    msg.payload.content.card_number = cardNumber;
-
-                    node.send(msg)
-                }
-            }
-
-        });
-
-    }
-
-    RED.nodes.registerType("bale money", balemoney);
-
-
     function baleuploader(config) {
         RED.nodes.createNode(this, config);
         var node = this;
@@ -846,6 +782,51 @@ module.exports = function (RED) {
     RED.nodes.registerType("bale uploader", baleuploader);
 
 
+    // --------------------------------------------------------------------------------------------
+    // The output node sends to the chat and passes the msg through.
+    // The payload needs two fields
+    // amount    : amount of the money
+    // card_number : the card number transfer the money to
+
+    function balemoney(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+
+        var cardNumber = config.cardNumber.toString();
+        var amount = config.Amount;
+
+        this.on('input', function (msg) {
+
+            msg.payload.type = "money";
+            if (msg.payload.content.card_number) {
+                cardNumber = msg.payload.content.card_number.toString();
+            }
+            if (msg.payload.content.amount) {
+                amount = msg.payload.content.amount;
+            }
+
+            if (!cardNumber) {
+                node.warn("card number is unknown");
+            } else {
+                if (!amount) {
+                    amount = "0"
+                }
+                if (cardNumber) {
+                    msg.payload.content.amount = amount;
+                    msg.payload.content.card_number = cardNumber;
+
+                    node.send(msg)
+                }
+            }
+
+        });
+
+    }
+
+    RED.nodes.registerType("bale money", balemoney);
+
+
     function baleutton(config) {
         RED.nodes.createNode(this, config);
         var node = this;
@@ -898,5 +879,29 @@ module.exports = function (RED) {
 
 
     RED.nodes.registerType("bale button", baleutton);
+
+
+    // --------------------------------------------------------------------------------------------
+    // The output node sends to the chat and passes the msg through.
+    // The payload needs two fields
+    // caption    : caption of the message
+    // type : is "text"
+
+    function baletext(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+        var message = config.message.toString() || "";
+
+        this.on('input', function (msg) {
+
+            if (!msg.payload.content) {
+                msg.payload["content"] = {}
+            }
+            msg.payload.content.caption = message;
+            node.send(msg)
+        });
+    }
+
+    RED.nodes.registerType("bale text", baletext);
 
 };
