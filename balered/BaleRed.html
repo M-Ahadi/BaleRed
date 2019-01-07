@@ -667,3 +667,50 @@
         });
     })();
 </script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+<script type="text/javascript">
+    RED.nodes.registerType('bale text', {
+        category: 'BaleRed',
+        color: '#88ddd9',
+        defaults: {
+            name: {value: ""},
+            message: {value: ""}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "bale.png",
+        outputLabels: ["Text Message"],
+        paletteLabel: "Text Message",
+        label: function () {
+            return this.name || "Bale Text";
+        },
+        labelStyle: function () {
+            return this.name ? "node_label_italic" : "";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="bale text">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-message"><i class="fa fa-tag"></i> Message</label>
+        <textarea rows="4" cols="200" placeholder="Message" id="node-input-message"></textarea>
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="bale text">
+    <p>A bale node that makes Text Message.
+    <p><code>msg.payload.content</code> typically contains the parsed data as follows:</p>
+    <ul>
+    <li><code>caption</code> the text message content</li>
+    <li><code>type</code> is "text"</li>
+    </ul>
+
+
+</script>
