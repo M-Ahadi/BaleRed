@@ -348,6 +348,9 @@ module.exports = function (RED) {
         };
 
         this.on('input', function (msg) {
+            if (!msg.payload.type){
+                msg.payload.type = "text"
+            }
             if (msg.payload) {
                 if (msg.payload.user_id) {
                     if (msg.payload.type) {
