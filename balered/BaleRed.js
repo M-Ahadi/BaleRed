@@ -603,7 +603,7 @@ module.exports = function (RED) {
                                             node.send({
                                                 payload: "File downloaded successfully.",
                                                 "filename": file_name,
-                                                "effective_msg": msg.payload.effective_msg
+                                                "effective_msg": msg.effective_msg
                                             });
                                         });
                                     }).catch((err) => {
