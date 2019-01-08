@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-balered",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "description": "BaleRed is a NodeRed node which helps you to make bale bot without coding",
   "homepage": "https://github.com/M-Ahadi/BaleRed#readme",
   "keywords": [
