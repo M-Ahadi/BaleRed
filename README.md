@@ -309,7 +309,7 @@ After installing Bale Red restart node-red so new nodes be loaded.
 ### Install Node-Red
 
 Download and install node.js version LTS from [https://nodejs.org/en/](https://nodejs.org/en/)
-After installing node.js start a powerShell and run these commands: 
+After installing node.js start a powerShell as an administrator and run these commands: 
 ```
 npm install --global --production windows-build-tools
 npm install --global --production --add-python-to-path windows-build-tools
