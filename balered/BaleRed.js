@@ -174,7 +174,7 @@ module.exports = function (RED) {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
-    function format_msg(responder,message) {
+    function format_msg(responder, message) {
         var msg = {payload: {}};
         // console.log(message);
         msg.payload.user_id = responder._peer._id.toString();
@@ -225,6 +225,7 @@ module.exports = function (RED) {
         }
         return msg
     }
+
 // --------------------------------------------------------------------------------------------
     // The input node receives messages from the chat.
     // the message details are stored in the payload
@@ -259,7 +260,7 @@ module.exports = function (RED) {
             if (node.baleBot) {
                 this.status({fill: "green", shape: "ring", text: "connected"});
                 node.baleBot.setDefaultCallback((message, responder) => {
-                    msg = format_msg(responder,message);
+                    msg = format_msg(responder, message);
 
                     if (msg.payload.$type === "Group") {
                         node.send([null, null, msg]);
@@ -279,7 +280,7 @@ module.exports = function (RED) {
 
 
                 });
-                node.baleBot.setConversation(conv);
+
             } else {
                 node.warn("bot not initialized");
                 this.status({fill: "red", shape: "ring", text: "bot not initialized"});
@@ -350,7 +351,7 @@ module.exports = function (RED) {
         };
 
         this.on('input', function (msg) {
-            if (!msg.payload.type){
+            if (!msg.payload.type) {
                 msg.payload.type = "text"
             }
             if (msg.payload) {
@@ -876,3 +877,4 @@ module.exports = function (RED) {
     }
 
     RED.nodes.registerType("bale text", baletext);
+}
