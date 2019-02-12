@@ -1,7 +1,6 @@
 /**
  * Created by Mojtaba Ahadi
  **/
-//todo handle bale cannot connect to the server and show proper status
 
 module.exports = function (RED) {
     const PhotoMessageJson = require("./models/photo_message");
