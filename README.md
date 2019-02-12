@@ -8,6 +8,8 @@ With the Receiver and Sender nodes you can receive and send these types of messa
 - Document Message
 - Location Message
 - Contact Message
+- Purchase Message
+- Money Request Message
 
 The Downloader node helps you to download Photo, Video and Document messages in your local system.
 
