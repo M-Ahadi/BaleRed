@@ -659,14 +659,13 @@ module.exports = function (RED) {
         }
 
         this.on('input', function (msg) {
-            if (msg.payload) {
-                if (msg.payload.filename) {
-                    fs.readFile(msg.payload.filename, function (err, imageBuffer) {
+                if (msg.filename) {
+                    fs.readFile(msg.filename, function (err, imageBuffer) {
                             node.baleBot.UploadFile(imageBuffer, 'file').then(response => {
 
-                                var stats = fs.statSync(msg.payload.filename);
+                                var stats = fs.statSync(msg.filename);
                                 var fileSizeInBytes = stats.size;
-                                let mime_type = mime.getType(msg.payload.filename);
+                                let mime_type = mime.getType(msg.filename);
                                 let fileId = response.fileId;
                                 let fileAccessHash = response.accessHash;
 
@@ -675,16 +674,7 @@ module.exports = function (RED) {
                                     msg.payload.content.file_hash = fileAccessHash;
                                     msg.payload.content.mimeType = mime_type;
                                     msg.payload.content.file_size = fileSizeInBytes;
-                                    msg.payload.content.file_name = path.basename(msg.payload.filename);
-
-                                } else {
-                                    msg.payload["content"] = {
-                                        file_id: fileId,
-                                        file_hash: fileAccessHash,
-                                        mimeType: mime_type,
-                                        file_size: fileSizeInBytes,
-                                        file_name: path.basename(msg.payload.filename)
-                                    };
+                                    msg.payload.content.file_name = path.basename(msg.filename);
                                 }
 
                                 if (!msg.payload.content.caption) {
@@ -696,17 +686,17 @@ module.exports = function (RED) {
                                 if (mime_type.indexOf("video") > -1) {
                                     msg.payload.type = "video";
 
-                                    ffmpeg.ffprobe(msg.payload.filename, function (err, metadata) {
+                                    ffmpeg.ffprobe(msg.filename, function (err, metadata) {
                                         msg.payload.content.duration = metadata.format.duration;
                                         msg.payload.content.width = metadata.streams[1].width;
                                         msg.payload.content.height = metadata.streams[1].height;
 
                                     });
 
-                                    var temp_path = msg.payload.filename.replace(path.basename(msg.payload.filename), "");
+                                    var temp_path = msg.filename.replace(path.basename(msg.filename), "");
                                     var temp_file_name = random_file_name() + ".png";
 
-                                    ffmpeg(msg.payload.filename)
+                                    ffmpeg(msg.filename)
                                         .on('filenames', function (filenames) {
 
                                         })
@@ -751,7 +741,7 @@ module.exports = function (RED) {
 
                                 } else if (mime_type.indexOf("audio") > -1) {
                                     msg.payload.type = "audio";
-                                    audio_metadata.parseFile(msg.payload.filename, {native: true})
+                                    audio_metadata.parseFile(msg.filename, {native: true})
                                         .then(metadata => {
                                             // console.log(metadata.format.duration);
                                             msg.payload.content.duration = metadata.format.duration;
@@ -776,10 +766,6 @@ module.exports = function (RED) {
                 else {
                     node.warn("msg.payload.filename is empty");
                 }
-            }
-            else {
-                node.warn("msg.payload is empty");
-            }
 
         })
         ;
