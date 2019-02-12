@@ -205,7 +205,7 @@ chosen in the node's config.
 In order to use the Uploader node, it is necessary to send the file location in local directory. After this node 
 it is necessary to add user's data (user_id and accessHash). 
 ```
-msg.payload.filename = "the file address in my PC"
+msg.filename = "the file address in my PC"
 ```
 
 ### Text Message Node
@@ -219,13 +219,13 @@ To send a money request this node can be used.
 In order to give file address to the node it can be given by a function node.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/50720947-64154880-10cc-11e9-9945-d24592903f9d.png"  title="show data location">
+  <img src="https://user-images.githubusercontent.com/37385157/52635536-63e44600-2edf-11e9-8a74-05dfd6ac50de.png"  title="show data location">
 </p>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/37385157/50537774-a2b17d00-0b79-11e9-8fb9-29b14afa8c97.png"  title="nodes to send a file">
 </p>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37385157/49873406-02492200-fe31-11e8-86a5-fd82d8fb7208.png"  title="sent user data">
+  <img src="https://user-images.githubusercontent.com/37385157/52635633-a0b03d00-2edf-11e9-9c7e-f0ef193ab130.png"  title="sent user data">
 </p>
 
 
