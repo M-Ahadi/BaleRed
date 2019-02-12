@@ -668,7 +668,12 @@ module.exports = function (RED) {
                                 let mime_type = mime.getType(msg.filename);
                                 let fileId = response.fileId;
                                 let fileAccessHash = response.accessHash;
-
+                                if (!msg.payload){
+                                    msg.payload = {}
+                                }
+                                if (!msg.payload.content){
+                                    msg.payload.content = {}
+                                }
                                 if (msg.payload.content) {
                                     msg.payload.content.file_id = fileId;
                                     msg.payload.content.file_hash = fileAccessHash;
