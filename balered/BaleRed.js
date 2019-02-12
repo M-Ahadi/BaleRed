@@ -26,8 +26,6 @@ module.exports = function (RED) {
     const LocationMessage = Platform.LocationMessage;
     const ContactMessage = Platform.ContactMessage;
     const TemplateResponseMessage = Platform.TemplateResponseMessage;
-
-
     const fs = require('fs');
     const mime = require('mime');
     const sharp = require('sharp');
@@ -177,7 +175,57 @@ module.exports = function (RED) {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
+    function format_msg(responder,message) {
+        var msg = {payload: {}};
+        // console.log(message);
+        msg.payload.user_id = responder._peer._id.toString();
+        msg.payload.accessHash = responder._peer._accessHash.toString();
+        msg.payload.$type = responder._peer.$type;
+        msg.effective_msg = message;
 
+        if (message instanceof TextMessage) {
+            msg.payload.type = "text";
+            msg.payload.content = {};
+            msg.payload.content.caption = message.text;
+        }
+        else if (message instanceof PhotoMessage) {
+            msg.payload.type = "photo";
+            msg.payload.content = PhotoMessageJson.get_json(message);
+            msg.payload.blob = true;
+        }
+        else if (message instanceof VideoMessage) {
+            msg.payload.type = "video";
+            msg.payload.content = VideoMessageJson.get_json(message);
+            msg.payload.blob = true;
+        }
+        else if (message instanceof AudioMessage) {
+            msg.payload.type = "audio";
+            msg.payload.content = AudioMessageJson.get_json(message);
+            msg.payload.blob = true;
+        }
+        else if (message instanceof FileMessage) {
+            msg.payload.type = "document";
+            msg.payload.content = DocumentMessageJson.get_json(message);
+            msg.payload.blob = true;
+        }
+        else if (message instanceof LocationMessage) {
+            msg.payload.type = "location";
+            msg.payload.content = LocationMessageJson.get_json(message);
+        }
+        else if (message instanceof ContactMessage) {
+            msg.payload.type = "contact";
+            msg.payload.content = ContactMessageJson.get_json(message)
+        }
+        else if (message instanceof ReceiptMessage) {
+            msg.payload.type = "receipt";
+            msg.payload.content = PurchaseMessageJson.get_json(message);
+        }
+        else if (message instanceof TemplateResponseMessage) {
+            msg.payload.type = "text";
+            msg.payload.content = TemplateMessageJson.get_json(message);
+        }
+        return msg
+    }
 // --------------------------------------------------------------------------------------------
     // The input node receives messages from the chat.
     // the message details are stored in the payload
@@ -212,54 +260,8 @@ module.exports = function (RED) {
             if (node.baleBot) {
                 this.status({fill: "green", shape: "ring", text: "connected"});
                 node.baleBot.setDefaultCallback((message, responder) => {
-                    var msg = {payload: {}};
-                    // console.log(message);
-                    msg.payload.user_id = responder._peer._id.toString();
-                    msg.payload.accessHash = responder._peer._accessHash.toString();
-                    msg.payload.$type = responder._peer.$type;
-                    msg.effective_msg = message;
+                    msg = format_msg(responder,message);
 
-                    if (message instanceof TextMessage) {
-                        msg.payload.type = "text";
-                        msg.payload.content = {};
-                        msg.payload.content.caption = message.text;
-                    }
-                    else if (message instanceof PhotoMessage) {
-                        msg.payload.type = "photo";
-                        msg.payload.content = PhotoMessageJson.get_json(message);
-                        msg.payload.blob = true;
-                    }
-                    else if (message instanceof VideoMessage) {
-                        msg.payload.type = "video";
-                        msg.payload.content = VideoMessageJson.get_json(message);
-                        msg.payload.blob = true;
-                    }
-                    else if (message instanceof AudioMessage) {
-                        msg.payload.type = "audio";
-                        msg.payload.content = AudioMessageJson.get_json(message);
-                        msg.payload.blob = true;
-                    }
-                    else if (message instanceof FileMessage) {
-                        msg.payload.type = "document";
-                        msg.payload.content = DocumentMessageJson.get_json(message);
-                        msg.payload.blob = true;
-                    }
-                    else if (message instanceof LocationMessage) {
-                        msg.payload.type = "location";
-                        msg.payload.content = LocationMessageJson.get_json(message);
-                    }
-                    else if (message instanceof ContactMessage) {
-                        msg.payload.type = "contact";
-                        msg.payload.content = ContactMessageJson.get_json(message)
-                    }
-                    else if (message instanceof ReceiptMessage) {
-                        msg.payload.type = "receipt";
-                        msg.payload.content = PurchaseMessageJson.get_json(message);
-                    }
-                    else if (message instanceof TemplateResponseMessage) {
-                        msg.payload.type = "text";
-                        msg.payload.content = TemplateMessageJson.get_json(message);
-                    }
                     if (msg.payload.$type === "Group") {
                         node.send([null, null, msg]);
                     }
@@ -278,6 +280,7 @@ module.exports = function (RED) {
 
 
                 });
+                node.baleBot.setConversation(conv);
             } else {
                 node.warn("bot not initialized");
                 this.status({fill: "red", shape: "ring", text: "bot not initialized"});
@@ -874,5 +877,3 @@ module.exports = function (RED) {
     }
 
     RED.nodes.registerType("bale text", baletext);
-
-};
